@@ -1,4 +1,4 @@
-wotreplays-api
+wotreplays-RD
 ==============
 
 Небольшая обертка для поиска и скачивания реплеев c wotreplays.ru
