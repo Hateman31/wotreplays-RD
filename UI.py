@@ -65,4 +65,3 @@ def Main(Action):
 	frame4.grid(row=1,column=0)
 	root.mainloop()
 
-Main(Action)
