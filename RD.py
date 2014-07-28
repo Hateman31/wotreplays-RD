@@ -104,5 +104,5 @@ def SearchReplays(params,limit=25):
 				name = link.split('#')[1]
 				Load(link,name,path)
 				limit-=1
-			num+=1
-			url = '{1}/page/{2}/'.format(url,num)
+		num+=1
+		url = '{1}/page/{2}/'.format(url,num)
