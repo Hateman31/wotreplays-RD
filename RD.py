@@ -6,19 +6,16 @@ from time import ctime
 
 #~ вынести в файл(закрытый от юзера) и при первом запуске создать его
 #~ при последующих - брать значения из файла(пока на сайте всё в порядке)(sqlite? json?)
-def Contents():
-	mass = bs(urlopen('http://wotreplays.ru'))('ul')
-	def couples(ind,x):
-		return {x.text.strip():x.find('input').get(ind) for x in mass[x]('li')}
-	maps = couples('map_id',7)
-	tanks = couples('tank_id',6)
-	types = couples('battletype',9)
-
-#~ Tanks:
-	#~ ul = soup.find('ul',{'class':'b-list b-filter__list'})
-	#~ for li in ul('li'):
-		#~ li.find('input').get('tank_id') #id tank
-		#~ li.find('label').text #name of tank
+mass = bs(urlopen('http://wotreplays.ru'))('ul',{'class':'b-list b-filter__list'},limit=4)
+def couples(couple):
+	key,idx = couple
+	out = {}
+	for li in mass[idx]('li'):
+		id_ = li.find('input').get(key) #id tank
+		node = li.find('label').text
+		out+={id_:node}
+	return out
+maps, tanks, types = map(couples,[('map_id',1),('tank_id',0),('battletype',-1)])
 
 def Replay(record,params):
 	trick = lambda x: x.text.strip()
@@ -60,7 +57,7 @@ def GetUrl(params):
 	sort = params['sort']
 	for a in args:
 		substr = args[a].replace(',','%2C')
-		url='{1}/{2}/{3}/sort'.format(url,a,substr) # говнокод жи!!!!
+		url='{1}/{2}/{3}/sort'.format(url,a,substr) 
 	choice = {
 			'damage':'/inflicted_damage.desc',
 			'frags':'/frags.desc',
@@ -72,10 +69,11 @@ def GetUrl(params):
 	return(url)
 
 def Load(link,name,path):
-	t_path = os.path.join(path,name)
-	if not os.path.exists(t_path):
-		os.mkdir(path)
-	urlretrieve(link, t_path)
+	URL = 'http://wotreplays.ru'
+	npath = os.path.join(path,name)
+	if not os.path.exists(npath):
+		os.mkdir(npath)
+	urlretrieve(URL+link, npath)
 
 def GetPath():
 	substr = '\\Desktop\\Downloaded Replays\\'
@@ -108,4 +106,3 @@ def SearchReplays(params,limit=25):
 				limit-=1
 			num+=1
 			url = '{1}/page/{2}/'.format(url,num)
-
