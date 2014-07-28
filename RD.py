@@ -77,18 +77,21 @@ def Load(link,name,path):
 		os.mkdir(path)
 	urlretrieve(link, t_path)
 
-def SearchReplays(params,limit=25):
-	# это...
-	keys = []
-	for k in params:
-		for x in params[k]:
-			keys+=[x]
-	# ...ужасно ><
-	url = GetUrl(params)
-	path=''.join(('C:\\Users\\',os.environ.get('USERNAME'),'\\Desktop\\Downloaded Replays\\')) # это тоже ((
+def GetPath():
+	substr = '\\Desktop\\Downloaded Replays\\'
+	path=''.join(os.environ['HOME'],substr))
 	if not os.path.exists(path):
 		os.mkdir(path)
-	path=''.join((path,ctime().replace(':','-'),'\\'))
+	Time = ctime().replace(':','-')
+	path=''.join((path,Time,'\\'))
+	return path	
+
+def SearchReplays(params,limit=25):
+	keys = [] # избавиться от этого!!!
+	for k in params:
+		keys+=[x for x in params[k]] # лучше...но наверно можно еще короче ;)
+	url = GetUrl(params)
+	path = GetPath()
 	os.mkdir(path)
 	while limit:
 		page = bs(urlopen(url))
