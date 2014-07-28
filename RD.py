@@ -93,13 +93,19 @@ def SearchReplays(params,limit=25):
 	url = GetUrl(params)
 	path = GetPath()
 	os.mkdir(path)
+	num = 1
 	while limit:
-		page = bs(urlopen(url))
+		try:
+			page = bs(urlopen(url))
+		except:
+			break
 		for rec in page('div',class_='r-info')[:-1]:
 			rep = Replay(rec,keys)
 			if Test(rep,params['sort']):
-				link = rec('a')[3].get('href')
-				name = rec('a')[0].get('href').split('#')[1]
+				link = rec.find('a').get('href')
+				name = link.split('#')[1]
 				Load(link,name,path)
 				limit-=1
-		url = ''.join(('http://wotreplays.ru',page('a')[-6].get('href')))
+			num+=1
+			url = '{1}/page/{2}/'.format(url,num)
+
