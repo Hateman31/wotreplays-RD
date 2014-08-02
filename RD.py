@@ -30,11 +30,11 @@ def Replay(record,keys):
 #~ def less(x,y,eq):
 	#~ res = (x<=y) if eq==-1 else (x<y)
 	#~ return(res)
-	#~ 
+	
 #~ def great(x,y,eq):
 	#~ res = (x>=y) if eq==-1 else (x>y)
 	#~ return(res)
-#~ 
+	
 #~ def Choice(x,y,flag):
 	#~ funcs = {'<':less,'>':great}
 	#~ eq = {('<','>'):-1,('<=','>='):1}
