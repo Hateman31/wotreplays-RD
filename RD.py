@@ -8,7 +8,7 @@ from time import ctime
 #~ при первом запуске создать его
 #~ при последующих - брать значения из файла
 #~ (пока на сайте всё в порядке)(sqlite? json?)
-mass = bs(urlopen('http://wotreplays.ru'))('ul',{'class':'b-list b-filter__list'},limit=4)
+mass = bs(urlopen('http://wotreplays.ru'))('ul',class_='b-list b-filter__list',limit=4)
 def couples(key,m):
 	out = {}
 	for li in m('li'):
@@ -16,7 +16,7 @@ def couples(key,m):
 		node = li.find('label').text
 		out+={id_:node}
 	return out
-maps, tanks, types = [couples(key,mass[idx]) for key,idx in (('map_id',1),('tank_id',0),('battletype',-1)))]
+maps, tanks, types = [couples(key,mass[idx]) for key,idx in (('map_id',1),('tank_id',0),('battletype',-1))]
 
 def Replay(record,keys):
 	buf = record('li',limit=4)	# damage,xp,frags
@@ -27,32 +27,24 @@ def Replay(record,keys):
 			}
 	return({k:data[k] for k in keys})
 
-def less(x,y,eq):
-	res = (x<=y) if eq==-1 else (x<y)
-	return(res)
-	
-def great(x,y,eq):
-	res = (x>=y) if eq==-1 else (x>y)
-	return(res)
+#~ def less(x,y,eq):
+	#~ res = (x<=y) if eq==-1 else (x<y)
+	#~ return(res)
+	#~ 
+#~ def great(x,y,eq):
+	#~ res = (x>=y) if eq==-1 else (x>y)
+	#~ return(res)
+#~ 
+#~ def Choice(x,y,flag):
+	#~ funcs = {'<':less,'>':great}
+	#~ eq = {('<','>'):-1,('<=','>='):1}
+	#~ res = funcs[flag](x,y,eq[flag])
+	#~ return(res)
 
-def Choice(x,y,flag):
-	funcs = {'<':less,'>':great}
-	eq = {('<','>'):-1,('<=','>='):1}
-	res = funcs[flag](x,y,eq[flag])
-	return(res)
-
-def Test(data, params): # УЖАС!!!
-	for p in params:
-		#~ for e in eq:
-			#~ if params[p] in e:
-				#~ 
-		if '<' in params[p]:
-			flag = '<=' if '=' in params[p] else '<'
-		else:
-			flag = '>' if not '=' in params[p] else '>='
-		if not Choice(data[p],params[p].split(flag)[-1],flag):
-			return(False)
-	return(True)
+def Test(data, params):
+	if all(data[p]>=params[p] for p in params): 
+		return(True)
+	return(False)
 
 def GetUrl(params):
 	url ='http://wotreplays.ru/site/index'
