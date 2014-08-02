@@ -4,45 +4,48 @@ from urllib.request import urlopen,urlretrieve
 import os
 from time import ctime
 
-#~ вынести в файл(закрытый от юзера) и при первом запуске создать его
-#~ при последующих - брать значения из файла(пока на сайте всё в порядке)(sqlite? json?)
+#~ вынести в файл(закрытый от юзера) и 
+#~ при первом запуске создать его
+#~ при последующих - брать значения из файла
+#~ (пока на сайте всё в порядке)(sqlite? json?)
 mass = bs(urlopen('http://wotreplays.ru'))('ul',{'class':'b-list b-filter__list'},limit=4)
-def couples(couple):
-	key,idx = couple
+def couples(key,m):
 	out = {}
-	for li in mass[idx]('li'):
+	for li in m('li'):
 		id_ = li.find('input').get(key) #id tank
 		node = li.find('label').text
 		out+={id_:node}
 	return out
-maps, tanks, types = map(couples,[('map_id',1),('tank_id',0),('battletype',-1)])
+maps, tanks, types = [couples(key,mass[idx]) for key,idx in (('map_id',1),('tank_id',0),('battletype',-1)))]
 
-def Replay(record,params):
-	trick = lambda x: x.text.strip()
-	replay = {}
-	buf = record('a')	#player
-	buf1 = record('li')		# damage,xp,frags
-	funcs = {'player':(lambda:buf[2].text),'damage':(lambda:trick(buf1[3])),
-			'frags':(lambda:trick(buf1[0])),'xp':(lambda:trick(buf1[1])),
-			'date':(lambda:record('span')[4].text)}
-	params = [p for p in params if p in funcs]
-	for p in params:
-		replay[p]=funcs[p]()
-	return(replay)
+def Replay(record,keys):
+	buf = record('li',limit=4)	# damage,xp,frags
+	data = {
+			'damage':buf[3].text,
+			'frags':buf[0].text,
+			'xp':buf[1].text
+			}
+	return({k:data[k] for k in keys})
 
-def Test(data, params):
-	def Choice(x,y,flag):
-		def less(x,y,eq):
-			res = (x<=y) if eq==-1 else (x<y)
-			return(res)
-		def great(x,y,eq):
-			res = (x>=y) if eq==-1 else (x>y)
-			return(res)
-		funcs = {'<':less,'>':great}
-		eq = {'<':-1,'>':-1,'<=':1,'>=':1}
-		res = funcs[flag](x,y,eq[flag])
-		return(res)
+def less(x,y,eq):
+	res = (x<=y) if eq==-1 else (x<y)
+	return(res)
+	
+def great(x,y,eq):
+	res = (x>=y) if eq==-1 else (x>y)
+	return(res)
+
+def Choice(x,y,flag):
+	funcs = {'<':less,'>':great}
+	eq = {('<','>'):-1,('<=','>='):1}
+	res = funcs[flag](x,y,eq[flag])
+	return(res)
+
+def Test(data, params): # УЖАС!!!
 	for p in params:
+		#~ for e in eq:
+			#~ if params[p] in e:
+				#~ 
 		if '<' in params[p]:
 			flag = '<=' if '=' in params[p] else '<'
 		else:
@@ -57,15 +60,18 @@ def GetUrl(params):
 	sort = params['sort']
 	for a in args:
 		substr = args[a].replace(',','%2C')
-		url='{1}/{2}/{3}/sort'.format(url,a,substr) 
+		url='{1}/{2}/{3}/'.format(url,a,substr)
+	url+='sort' 
 	choice = {
 			'damage':'/inflicted_damage.desc',
 			'frags':'/frags.desc',
 			'xp':'/xp.desc'
 			}
-	dfx = sorted([a for a in choice])
-	#~ for s in dfx:
-		#~ url+=s
+	dfx = sorted(list(choice))
+	for s in dfx:
+		if s in sort:
+			url+=сhoice[s]
+			break
 	return(url)
 
 def Load(link,name,path):
@@ -73,7 +79,7 @@ def Load(link,name,path):
 	npath = os.path.join(path,name)
 	if not os.path.exists(npath):
 		os.mkdir(npath)
-	urlretrieve(URL+link, npath)
+	urlretrieve(URL+link, npath+'.wotreplay')
 
 def GetPath():
 	substr = '\\Desktop\\Downloaded Replays\\'
@@ -87,22 +93,22 @@ def GetPath():
 def SearchReplays(params,limit=25):
 	keys = [] # избавиться от этого!!!
 	for k in params:
-		keys+=[x for x in params[k]] # лучше...но наверно можно еще короче ;)
-	url = GetUrl(params)
+		keys+=list(params[k]) # лучше...но наверно можно еще короче ;)
+	url = URL = GetUrl(params)
 	path = GetPath()
 	os.mkdir(path)
 	num = 1
 	while limit:
 		try:
 			page = bs(urlopen(url))
-		except:
+		except Exception:
 			break
 		for rec in page('div',class_='r-info')[:-1]:
-			rep = Replay(rec,keys)
-			if Test(rep,params['sort']):
-				link = rec.find('a').get('href')
-				name = link.split('#')[1]
+			if Test(Replay(rec('ul')[0],keys),params['sort']):
+				buf = rec('a')[0].get('href').split('#')
+				name = buf[1]
+				link = buf[0].replace('/site/','/site/download/')
 				Load(link,name,path)
 				limit-=1
 		num+=1
-		url = '{1}/page/{2}/'.format(url,num)
+		url = '{1}/page/{2}/'.format(URL,num)
