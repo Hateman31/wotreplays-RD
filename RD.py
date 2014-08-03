@@ -42,9 +42,7 @@ def Replay(record,keys):
 	#~ return(res)
 
 def Test(data, params):
-	if all(data[p]>=params[p] for p in params): 
-		return(True)
-	return(False)
+	rerturn(all(data[p]>=params[p] for p in params))
 
 def GetUrl(params):
 	url ='http://wotreplays.ru/site/index'
