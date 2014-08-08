@@ -68,8 +68,7 @@ def GetPath():
 
 def SearchReplays(params,limit=25, best = False): #best - выбор лучшего реплея из отысканных
 	keys = [] # избавиться от этого!!!
-	for k in params:
-		keys+=list(params[k]) # лучше...но наверно можно еще короче ;)
+	[keys.extend(k) for k in params.values()]
 	url = URL = GetUrl(params)
 	path = GetPath()
 	os.mkdir(path)
