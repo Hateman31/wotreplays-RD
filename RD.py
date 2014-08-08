@@ -27,22 +27,8 @@ def Replay(record,keys):
 			}
 	return({k:data[k] for k in keys})
 
-#~ def less(x,y,eq):
-	#~ res = (x<=y) if eq==-1 else (x<y)
-	#~ return(res)
-	
-#~ def great(x,y,eq):
-	#~ res = (x>=y) if eq==-1 else (x>y)
-	#~ return(res)
-	
-#~ def Choice(x,y,flag):
-	#~ funcs = {'<':less,'>':great}
-	#~ eq = {('<','>'):-1,('<=','>='):1}
-	#~ res = funcs[flag](x,y,eq[flag])
-	#~ return(res)
-
-def Test(data, params):
-	rerturn(all(data[p]>=params[p] for p in params))
+def Test(data, params): 
+	return(all(data[p]>=params[p] for p in params))
 
 def GetUrl(params):
 	url ='http://wotreplays.ru/site/index'
@@ -66,10 +52,10 @@ def GetUrl(params):
 
 def Load(link,name,path):
 	URL = 'http://wotreplays.ru'
-	npath = os.path.join(path,name)
+	npath = os.path.join(path,name)+'.wotreplay'
 	if not os.path.exists(npath):
 		os.mkdir(npath)
-	urlretrieve(URL+link, npath+'.wotreplay')
+	urlretrieve(URL+link, npath)
 
 def GetPath():
 	substr = '\\Desktop\\Downloaded Replays\\'
@@ -80,7 +66,7 @@ def GetPath():
 	path=''.join((path,Time,'\\'))
 	return path	
 
-def SearchReplays(params,limit=25):
+def SearchReplays(params,limit=25, best = False): #best - выбор лучшего реплея из отысканных
 	keys = [] # избавиться от этого!!!
 	for k in params:
 		keys+=list(params[k]) # лучше...но наверно можно еще короче ;)
@@ -90,10 +76,10 @@ def SearchReplays(params,limit=25):
 	num = 1
 	while limit:
 		try:
-			page = bs(urlopen(url))
+			page = bs(urlopen(url))('div',class_='r-info')[:-1]
 		except Exception:
 			break
-		for rec in page('div',class_='r-info')[:-1]:
+		for rec in page:
 			if Test(Replay(rec('ul')[0],keys),params['sort']):
 				buf = rec('a')[0].get('href').split('#')
 				name = buf[1]
