@@ -48,7 +48,7 @@ def GetUrl(params):
 			'frags':'sort/frags.desc',
 			'xp':'sort/xp.desc'
 			}
-	s =[set(choice)^set(sort)][0]
+	s =list(set(choice)^set(sort))[0]
 	return url+сhoice[s]
 
 def GetPath(): # Выполняется при каждом поиске реплея - не экономно!!!
