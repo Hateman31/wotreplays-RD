@@ -2,75 +2,65 @@
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen,urlretrieve
 import os
-from time import ctime
+from time import strftime
 
-#~ вынести в файл(закрытый от юзера) и 
-#~ при первом запуске создать его
-#~ при последующих - брать значения из файла
-#~ (пока на сайте всё в порядке)(sqlite? json?)
+#~ Создать объект из которого будут извлекаться maps, tanks, types
+#~ Если версия сайта другая - проверить валидность
+#~ полей класса и данных с сайта
+#~ При несовпадении вызвать исключение и прекратить работу программы
+#~ Если версия прежняя, то maps, tanks, types извлечь из объекта
+#~ (см. Лутц стр.501)
+
 mass = bs(urlopen('http://wotreplays.ru'))('ul',class_='b-list b-filter__list',limit=4)
 def couples(key,m):
-	out = {}
-	for li in m('li'):
-		id_ = li.find('input').get(key) #id tank
-		node = li.find('label').text
-		out+={id_:node}
-	return out
-maps, tanks, types = [couples(key,mass[idx]) for key,idx in (('map_id',1),('tank_id',0),('battletype',-1))]
+	f1 = lambda x: x.find('input').get(key)
+	f2 = lambda x: x.find('label').text
+	return {f1(x):f2(x) for x in m('li')}
+foo = {'map_id':1,'tank_id':0,'battletype':-1}
+maps, tanks, types = [couples(key,mass[idx]) for key,idx in foo.items()]
 
-def Replay(record,keys):
-	buf = record('li',limit=4)	# damage,xp,frags
-	data = {
-			'damage':buf[3].text,
-			'frags':buf[0].text,
-			'xp':buf[1].text
-			}
-	return({k:data[k] for k in keys})
-
-def Test(data, params): 
-	return(all(data[p]>=params[p] for p in params))
+class Replay:
+	def __init__(self,rec,keys):
+		self = rec
+		self.buf = self('a')[0].get('href').split('#')
+		self.path = path # and something else
+	def data(self):
+		buf = self('ul')[0]('li',limit=4)	# damage,xp,frags
+		return {'damage':buf[3].text,'frags':buf[0].text,'xp':buf[1].text}
+	def name(self):
+		return self.buf[1]
+	def link(self):
+		return self.buf[0].replace('/site/','/site/download/')
+	def load(self,path):
+		npath = '/'.join(path,self.name()+'.wotreplay')
+		urlretrieve('http://wotreplays.ru'+self.link(), npath)
+	def test(self, params):
+		mass = self.data()
+		return(all(mass[p]>=params[p] for p in params))
 
 def GetUrl(params):
 	url ='http://wotreplays.ru/site/index'
-	args = params['filter']
-	sort = params['sort']
-	for a in args:
-		substr = args[a].replace(',','%2C')
-		url='{1}/{2}/{3}/'.format(url,a,substr)
-	url+='sort' 
+	args,sort = params.values()
+	for a,b in args.items():
+		url='%s/%s/%s/' % url,a,b.replace(',','%2C')
 	choice = {
-			'damage':'/inflicted_damage.desc',
-			'frags':'/frags.desc',
-			'xp':'/xp.desc'
+			'damage':'sort/inflicted_damage.desc',
+			'frags':'sort/frags.desc',
+			'xp':'sort/xp.desc'
 			}
-	dfx = sorted(list(choice))
-	for s in dfx:
-		if s in sort:
-			url+=сhoice[s]
-			break
-	return(url)
+	s =[set(choice)^set(sort)][0]
+	return url+сhoice[s]
 
-def Load(link,name,path):
-	URL = 'http://wotreplays.ru'
-	npath = os.path.join(path,name)+'.wotreplay'
-	if not os.path.exists(npath):
-		os.mkdir(npath)
-	urlretrieve(URL+link, npath)
-
-def GetPath():
-	substr = '\\Desktop\\Downloaded Replays\\'
-	path=''.join(os.environ['HOME'],substr))
-	if not os.path.exists(path):
+def GetPath(): # Выполняется при каждом поиске реплея - не экономно!!!
+	path=''.join((os.environ['HOME'],'\\Desktop\\Downloaded Replays\\'))
+	if not os.path.exists(path): 
 		os.mkdir(path)
-	Time = ctime().replace(':','-')
-	path=''.join((path,Time,'\\'))
-	return path	
+	return path+strftime('\\%H-%M_%d_%m')
 
 def SearchReplays(params,limit=25, best = False): #best - выбор лучшего реплея из отысканных
-	keys = [] # избавиться от этого!!!
-	[keys.extend(k) for k in params.values()]
 	url = URL = GetUrl(params)
-	path = GetPath()
+	#~ url = URL(params)
+	path = GetPath() # ''.join((path,strftime('%H-%M_%d_%m'),'\\'))
 	os.mkdir(path)
 	num = 1
 	while limit:
@@ -79,11 +69,11 @@ def SearchReplays(params,limit=25, best = False): #best - выбор лучше�
 		except Exception:
 			break
 		for rec in page:
-			if Test(Replay(rec('ul')[0],keys),params['sort']):
-				buf = rec('a')[0].get('href').split('#')
-				name = buf[1]
-				link = buf[0].replace('/site/','/site/download/')
-				Load(link,name,path)
+			replay = Replay(rec,path)
+			if replay.test(params['sort']):
+				replay.load(path) 
 				limit-=1
+			del replay
 		num+=1
-		url = '{1}/page/{2}/'.format(URL,num)
+		url = '%s/page/%s/' % URL,num
+		#~ url = URL(num)
