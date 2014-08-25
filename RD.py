@@ -20,7 +20,7 @@ foo = {'map_id':1,'tank_id':0,'battletype':-1}
 maps, tanks, types = [couples(key,mass[idx]) for key,idx in foo.items()]
 
 class Replay:
-	def __init__(self,rec,keys):
+	def __init__(self,rec,path):
 		self = rec
 		self.buf = self('a')[0].get('href').split('#')
 		self.path = path # and something else
