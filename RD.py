@@ -4,7 +4,7 @@ from urllib.request import urlopen,urlretrieve
 import os
 from time import strftime
 from random import randint
-from API import *
+from wotreplays import *
 
 #~ Создать объект из которого будут извлекаться maps, tanks, types
 #~ Если версия сайта другая - проверить валидность
