@@ -5,42 +5,42 @@
 		padding:60
 		spacing:6
 		orientation:'vertical'
-		TextInput:
-			id: inpt1
-			multiline: False
-			font_size:'20pt'
-			text_size:None,None
-			size_hint:0.1,None
-			line_spacing:1
-			pos_hint: {'y': 0.1,'x':0.5}
-			text:'0'
-		TextInput:
-			id: inpt2
-			multiline: False
-			font_size:'20pt'
-			size_hint:None,None
-			pos_hint: {'center_x': .5}
-			text:'0'
+		BoxLayout:
+			orientation:'horizontal'
+			spacing:4
+			TextInput:
+				id: inpt1
+				multiline: False
+				font_size:'20pt'
+				text_size:None,None
+				size_hint:None,None
+				line_spacing:1
+				text:'0'
+			TextInput:
+				id: inpt2
+				multiline: False
+				font_size:'20pt'
+				size_hint:None,None
+				text:'0'
 		Label:
 			id:lb1
-			height: '24dp'
 			font_size:'40dp'
 			padding:(6,6)
 			size_hint:None,None
-			pos_hint: {'center_x': .5}
 			text_size:70,70
 			line_height:1.5
 			text:'0'
+			halign:'center'
 		GridLayout:
 			spacing:4
 			cols:2
 			Button:
-				size_hint: None, None
+				size_hint: .5, None
 				text:'OK'
 				font_size: '20pt'
 				on_press: lb1.text=root.bar(inpt1,inpt2)
 			Button:	
-				size_hint:None,None
+				size_hint:.5,None
 				text:'Exit'
 				font_size: '20pt'
 				on_press:quit()
