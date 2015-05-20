@@ -1,64 +1,30 @@
 #: kivy 1.9.0
 
 <Foo>:
-	BoxLayout:
-		padding:60
-		spacing:6
-		orientation:'vertical'
+	GridLayout:
+		cols:3
+		rows:3
 		BoxLayout:
-			size_hint:None,0.8
-			orientation:'horizontal'
-			spacing:4
-			padding:'140dp',10,0,0
-			TextInput:
-				id: inpt1
-				multiline: False
-				font_size:'40dp'
-				size_hint:None,None
-				size:200,self.height
-				text:'0'
-				padding:0.4*self.width,0.25*self.height,0,0
-				on_focus:self.text=''
-			TextInput:
-				id: inpt2
-				multiline: False
-				font_size:'40dp'
-				size_hint:None,None
-				size:200,self.height
-				text:'0'
-				padding:0.4*self.width,0.25*self.height,0,0
-				on_focus:self.text=''
-		Label:
-			canvas:
-				Color:
-					rgb:.5,.6,.2
-				Rectangle:
-					size:self.size
-					pos:self.pos
-				Color
-				Rectangle:
-					pos: self.pos
-					size: self.texture_size
-					texture: self.texture
-			id:lb1
-			font_size:'40dp'
-			size_hint:0.5,None
-			pos_hint:{'center_x':0.5}
-			padding:0.45*self.width,0.25*self.height
-			text:'0'
-		GridLayout:
-			spacing:15
-			cols:2
-			padding:140,0
-			Button:
-				size_hint: .4, None
-				text:'OK'
-				font_size: '20pt'
-				on_press: lb1.text=root.bar(inpt1,inpt2)
-				pos_hint:{'center_x':0.5}
-			Button:	
-				size_hint:.4,None
-				text:'Exit'
-				font_size: '20pt'
-				on_press:quit()
-			
+			orientation:'vertical'
+			Label
+			TextInput
+		BoxLayout:
+			orientation:'vertical'
+			Label
+			TextInput
+		BoxLayout:
+			orientation:'vertical'
+			Label
+			TextInput
+		BoxLayout:
+			orientation:'vertical'
+			Label
+			TextInput
+		BoxLayout:
+			orientation:'vertical'
+			Label
+			TextInput
+		BoxLayout:
+			orientation:'vertical'
+			Label
+			TextInput
