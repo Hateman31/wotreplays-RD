@@ -4,9 +4,7 @@ from kivy.uix.label	import Label
 from kivy.uix.floatlayout	import FloatLayout
 
 class Foo(FloatLayout):
-	def bar(self,in1,in2):
-		return str(int(in1.text)+int(in2.text))
-
+	pass
 class SummApp(App):
 	def build(self):
 		return Foo()
