@@ -2,6 +2,14 @@
 
 <Foo>:
 	BoxLayout:
+		orientation:'vertical'
+		BoxLayout:
+			Button:
+				text:'1'
+				size_hint_y:None
+			Button:
+				text:'2'
+				size_hint_y:None
 		GridLayout:
 			cols:2
 			rows:3
@@ -14,3 +22,10 @@
 			Label:
 				text:'XP'
 			TextInput
+		BoxLayout:
+			Button:
+				text:'Search'
+				size_hint_y:None
+			Button:
+				text:'Exit'
+				size_hint_y:None
