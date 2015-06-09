@@ -7,17 +7,18 @@
 		spacing:6
 		size_hint_y:None
 		Button:
-			text:'1'
+			text:'Choose folder'
 			size_hint_y:None
 		Button:
-			text:'2'
+			text:'Exit'
 			size_hint_y:None
 	ScreenManager:
 		id:sm
 		Screen:
-			id:scrn1
+			name:'scrn1'
 			BoxLayout:
 				orientation:'vertical'
+				spacing:10
 				GridLayout:
 					cols:2
 					rows:3
@@ -30,29 +31,34 @@
 					Label:
 						text:'XP'
 					TextInput
-				AnchorLayout:
-					Button:
-						size_hint:.5,None
-						text:'Next'
-						on_release:sm.current='scrn2'
+				Button:
+					size_hint:.5,None
+					text:'Next'
+					on_release:sm.current='scrn2'
 		Screen:
-			id:scrn2
-			GridLayout:
-				cols:2
-				rows:3
-				Label:
-					text:'Tank'
-				TextInput
-				Label:
-					text:'Map'
-				TextInput
-				Label:
-					text:'Battle'
-				TextInput
-			AnchorLayout:
-				Button:
+			name:'scrn2'
+			BoxLayout:
+				orientation:'vertical'
+				spacing:10
+				GridLayout:
+					cols:2
+					rows:3
+					Label:
+						text:'Tank'
+					TextInput
+					Label:
+						text:'Map'
+					TextInput
+					Label:
+						text:'Battle'
+					TextInput
+				BoxLayout:
 					size_hint_y:None
-					text:'Search'
-				Button:
-					text:'Prev'
-					on_release:sm.current='scrn1'
+					Button:
+						size_hint_y:None
+						text:'Prev'
+						on_release:sm.current='scrn1'
+					Button:
+						size_hint_y:None
+						text:'Search'
+						
