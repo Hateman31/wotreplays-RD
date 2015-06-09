@@ -2,8 +2,8 @@
 #:import Factory kivy.factory.Factory
 <Foo>:
 	orientation:'vertical'
+	padding:16
 	BoxLayout:
-		padding:10
 		spacing:6
 		size_hint_y:None
 		Button:
@@ -33,6 +33,7 @@
 					TextInput
 				Button:
 					size_hint:.5,None
+					pos_hint:{'center_x':.5}
 					text:'Next'
 					on_release:sm.current='scrn2'
 		Screen:
