@@ -1,31 +1,58 @@
 #: kivy 1.9.0
-
+#:import Factory kivy.factory.Factory
 <Foo>:
 	orientation:'vertical'
 	BoxLayout:
+		padding:10
+		spacing:6
+		size_hint_y:None
 		Button:
 			text:'1'
 			size_hint_y:None
 		Button:
 			text:'2'
 			size_hint_y:None
-	GridLayout:
-		id:scrn1
-		cols:2
-		rows:3
-		Label:
-			text:'Damage'
-		TextInput
-		Label:
-			text:'Frags'
-		TextInput
-		Label:
-			text:'XP'
-		TextInput
-	BoxLayout:
-		Button:
-			text:'Search'
-			size_hint_y:None
-		Button:
-			text:'Next'
-			size_hint_y:None
+	ScreenManager:
+		id:sm
+		Screen:
+			id:scrn1
+			BoxLayout:
+				orientation:'vertical'
+				GridLayout:
+					cols:2
+					rows:3
+					Label:
+						text:'Damage'
+					TextInput
+					Label:
+						text:'Frags'
+					TextInput
+					Label:
+						text:'XP'
+					TextInput
+				AnchorLayout:
+					Button:
+						size_hint:.5,None
+						text:'Next'
+						on_release:sm.current='scrn2'
+		Screen:
+			id:scrn2
+			GridLayout:
+				cols:2
+				rows:3
+				Label:
+					text:'Tank'
+				TextInput
+				Label:
+					text:'Map'
+				TextInput
+				Label:
+					text:'Battle'
+				TextInput
+			AnchorLayout:
+				Button:
+					size_hint_y:None
+					text:'Search'
+				Button:
+					text:'Prev'
+					on_release:sm.current='scrn1'
