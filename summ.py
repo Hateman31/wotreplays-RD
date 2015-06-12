@@ -11,6 +11,7 @@ class Foo(BoxLayout):
 	
 class SummApp(App):
 	def build(self):
+		self.title = 'Replays Downloader'
 		return Foo()
 	
 if __name__ == '__main__':
