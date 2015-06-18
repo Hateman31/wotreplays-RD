@@ -49,14 +49,17 @@
 					Label:
 						text:'Tank'
 					Spinner:
+						id:tank
 						values:root.tanks
 					Label:
 						text:'Map'
 					Spinner:
+						id:_map
 						values:root.maps
 					Label:
 						text:'Battle'
 					Spinner:
+						id:battle
 						values:root.battles
 				BoxLayout:
 					size_hint_y:None
@@ -67,4 +70,4 @@
 					Button:
 						size_hint_y:None
 						text:'Search'
-						
+						on_press: root.action(tank.text,_map.text,battle.text)

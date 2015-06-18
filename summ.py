@@ -2,12 +2,14 @@ from kivy.app import App
 from kivy.uix.boxlayout	import BoxLayout
 import json
 
-with open('data') as f:
+with open('data1') as f:
 	data = json.loads(f.read())
 class Foo(BoxLayout):
-	tanks = [x['title'] for x in data['tank']]
-	maps = [x['title'] for x in data['map']]
-	battles = [x['title'] for x in data['battle_type']]
+	tanks,maps,battles = map(sorted,(data[x] for x in ['tank','map','battle_type']))
+	def action(self,tank,_map,battle):
+		print(tank, data['tank'][tank])
+		print(_map, data['map'][_map])
+		print(battle, data['battle_type'][battle])
 	
 class SummApp(App):
 	def build(self):
