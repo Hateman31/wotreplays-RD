@@ -9,6 +9,7 @@
 http://kivy.org/#download
 
 После установки необходимых   компонентов запустить summ.py
+<<<<<<< HEAD
 =======
 wotreplays-RD
 ==============
@@ -19,3 +20,7 @@ wotreplays-RD
   1. Устанавливаем Python v3 и к нему BeautfulSoup
   2. Распаковываем архив и запускаем Main.py
 >>>>>>> 92d7ec197b66e3e9c7888a56a770464a33499fa6
+=======
+
+Следить за проектом можно [ЗДЕСЬ](http://vk.com/ololocode)
+>>>>>>> slides

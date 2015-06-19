@@ -3,6 +3,7 @@
 <Foo>:
 	orientation:'vertical'
 	padding:16
+	spacing:6
 	BoxLayout:
 		spacing:6
 		size_hint_y:None
@@ -47,13 +48,19 @@
 					rows:3
 					Label:
 						text:'Tank'
-					TextInput
+					Spinner:
+						id:tank
+						values:root.tanks
 					Label:
 						text:'Map'
-					TextInput
+					Spinner:
+						id:_map
+						values:root.maps
 					Label:
 						text:'Battle'
-					TextInput
+					Spinner:
+						id:battle
+						values:root.battles
 				BoxLayout:
 					size_hint_y:None
 					Button:
@@ -63,4 +70,4 @@
 					Button:
 						size_hint_y:None
 						text:'Search'
-						
+						on_press: root.action(tank.text,_map.text,battle.text)
