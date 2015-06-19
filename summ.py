@@ -7,10 +7,11 @@ with open('data1') as f:
 class Foo(BoxLayout):
 	tanks,maps,battles = map(sorted,(data[x] for x in ['tank','map','battle_type']))
 	def action(self,tank,_map,battle):
-		print(tank, data['tank'][tank])
-		print(_map, data['map'][_map])
-		print(battle, data['battle_type'][battle])
-	
+		s = 'tank\{0}\map\{1}\\battle_type\{2}'
+		#~ продумать обработку комбинаций tank-map-battle
+		print(s.format(	data['tank'][tank],
+						data['map'][_map],
+						data['battle_type'][battle]))
 class SummApp(App):
 	def build(self):
 		self.title = 'Replays Downloader'
