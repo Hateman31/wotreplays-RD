@@ -10,6 +10,7 @@
 		Button:
 			text:'Choose folder'
 			size_hint_y:None
+			on_release:sm.current='scrn3'
 		Button:
 			text:'Exit'
 			size_hint_y:None
@@ -71,3 +72,19 @@
 						size_hint_y:None
 						text:'Search'
 						on_press: root.action(tank.text,_map.text,battle.text)
+		Screen:
+			name:'scrn3'
+			BoxLayout:
+				orientation:'vertical'
+				spacing:10
+				FileChooserListView:
+					id:filechooser
+				BoxLayout:
+					size_hint_y:None
+					Button:
+						size_hint_y:None
+						text:'Cancel'
+						on_release:sm.current='scrn1'
+					Button:
+						size_hint_y:None
+						text:'OK'
