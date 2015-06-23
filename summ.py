@@ -5,13 +5,16 @@ import json
 with open('data1') as f:
 	data = json.loads(f.read())
 class Foo(BoxLayout):
-	tanks,maps,battles = map(sorted,(data[x] for x in ['tank','map','battle_type']))
+	keys = ('tank','map','battle_type')
+	tanks,maps,battles = map(sorted,(data[x] for x in keys))
 	def action(self,tank,_map,battle):
-		s = 'tank\{0}\map\{1}\\battle_type\{2}'
 		#~ продумать обработку комбинаций tank-map-battle
-		print(s.format(	data['tank'][tank],
-						data['map'][_map],
-						data['battle_type'][battle]))
+		dlist = (tank,_map,battle)
+		q= 'wotreplays.ru/site/index/version/37/'
+		for key,rec in zip(self.keys,dlist):
+			#~ print(key,data[key][rec])
+			q+='{0}/{1}/'.format(key,data[key][rec])
+		print(q)
 class SummApp(App):
 	def build(self):
 		self.title = 'Replays Downloader'
