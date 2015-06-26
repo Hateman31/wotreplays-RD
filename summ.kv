@@ -1,6 +1,6 @@
 #: kivy 1.9.0
 #:import Factory kivy.factory.Factory
-<Foo>:
+<Root>:
 	orientation:'vertical'
 	padding:16
 	spacing:6
@@ -77,7 +77,7 @@
 			BoxLayout:
 				orientation:'vertical'
 				spacing:10
-				FileChooserListView:
+				FileChooserIconView:
 					id:filechooser
 				BoxLayout:
 					size_hint_y:None
@@ -88,3 +88,4 @@
 					Button:
 						size_hint_y:None
 						text:'OK'
+						on_press:print(filechooser.path)
