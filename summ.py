@@ -14,7 +14,15 @@ class Root(BoxLayout):
 			q= 'wotreplays.ru/site/index/version/37/'
 			for key,rec in zip(self.keys,dlist):
 				q+='{0}/{1}/'.format(key,data[key][rec])
-			print(q)
+			print(q+'inflicted_damage.desc')
+			#~ 
+			#~ 1)загрузка страницы с реплеями по адресу q
+			#~ 2)обернуть (1) в отдельную функцию
+			#~ 3)создание папки с именем datetime/tank-map-battle
+			#~ 4)если папка уже есть то:
+				#~ а)создать папку ./1
+				#~ б)перенести старое содержимое в нее
+				#~ в)результаты нового поиска - в ./2, потом в ./3 etc. 
 		else:
 			print('Error! Some data is None!')
 class Folders(BoxLayout):
