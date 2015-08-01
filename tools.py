@@ -14,12 +14,13 @@ def query(tank=None,_map=None,battle=None):
 	else:
 		print('Error! Some data is None!')
 		return None
-def load(url,path):
-	'''download replay'''
-	bites = R.get(url).content
-	name = os.path.join(path,url.split('/')[-1]+'.wotreplay')
-	with open(name,'wb') as f:
-		f.write(bites)
+def load(path,linx):
+	'''download replays'''
+	for url in linx:
+		bites = R.get(url).content
+		name = os.path.join(path,url.split('/')[-1]+'.wotreplay')
+		with open(name,'wb') as f:
+			f.write(bites)
 
 def isGood(rec,pars):
 	'''compares property of replay with args'''
@@ -30,6 +31,33 @@ def isGood(rec,pars):
 def record(data):
 	res,css = {},'i[class*="{0}"]'
 	for x in ['frags','exp','dmg']:
-		res[x] = data.select(css.format(x))[0].parent.text.strip()
+		res[x] = int(data.select(css.format(x))[0].parent.text.strip())
 	res['link'] = data.find('a').get('href')
 	return res
+
+def action(**kwargs):
+	url = query(kwargs['query'])
+	linx = []
+	flag = None
+	while 1:
+		site = bs(r.get(url).content)
+		if not flag:
+			flag = site.find('a').get('href')
+		else:
+			flag1 = site.find('a').get('href')
+			if flag1 == flag: 
+				break
+		for replay in site.select('div.r-info')[:-1]:
+			rec = record(replay)
+			if isGood(rec,kwargs['params']):
+				linx+=[rec['url']]
+				if limit:
+					limit-=1
+				else:
+					break
+	last = os.listdir(kwargs['path'])
+	folder = str(int(last[-1])+1) if last else '1'
+	path = os.path.join(self.path,folder)
+	load(path,linx)
+	#some code
+
