@@ -24,7 +24,7 @@
 				spacing:10
 				GridLayout:
 					cols:2
-					rows:3
+					rows:4
 					Label:
 						text:'Damage'
 					TextInput
@@ -34,6 +34,12 @@
 					Label:
 						text:'XP'
 					TextInput
+					Label:
+						text:'Limit'
+					Spinner:
+						id:limit
+						values:['10','25','100']
+						text:self.values[0]
 				Button:
 					size_hint:.5,None
 					pos_hint:{'center_x':.5}
@@ -71,7 +77,7 @@
 					Button:
 						size_hint_y:None
 						text:'Search'
-						on_press: root.action(tank.text,_map.text,battle.text)
+						on_press: root.action([tank.text,_map.text,battle.text])
 		Screen:
 			name:'scrn3'
 			BoxLayout:
