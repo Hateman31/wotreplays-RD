@@ -1,4 +1,4 @@
-import requests as R
+import requests as r
 from bs4 import BeautifulSoup as bs
 
 def query(tank=None,_map=None,battle=None):
@@ -35,7 +35,7 @@ def record(data):
 	res['link'] = data.find('a').get('href')
 	return res
 
-def action(**kwargs):
+def action(kwargs):
 	url = query(kwargs['query'])
 	linx = []
 	flag = None
