@@ -13,18 +13,16 @@ class Root(BoxLayout):
 	keys = ('tank','map','battle_type')
 	tanks,maps,battles = map(sorted,(data[x] for x in keys))
 	def attack(self):
-		self.stuff = {}
-		'''main function. It start searching and loading stuffs'''
+		'''Main function. It start searching and loading goods'''
 		#read the load-folder
-		with open('data1') as f1:
-			self.stuff['path'] = f.read()
-		#как из root вызвать отдельные виджеты???
+		with open('data') as f1:
+			self.fold = f.read()
 		#some code
 		#...
 	def folder(self):
 		'''записывает в конфиг папку для сохранений'''
 		with open('data1','w') as f:
-			f.write(self.stuff['path'])
+			f.write(self.fold)
 
 class SummApp(App):
 	def build(self):

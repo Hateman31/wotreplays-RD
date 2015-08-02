@@ -1,6 +1,9 @@
 #: kivy 1.9.0
 #:import Factory kivy.factory.Factory
 <Root>:
+	params: [dmg.buf,xp.buf,frags.buf]
+	query: [tank.text,_map.text,battle.text]
+	stuff: {'query':self.query,'params':self.params}
 	orientation:'vertical'
 	padding:16
 	spacing:6
@@ -27,13 +30,19 @@
 					rows:4
 					Label:
 						text:'Damage'
-					TextInput
+					TextInput:
+						id:dmg
+						buf:int(self.text) if self.text else 0
 					Label:
 						text:'Frags'
 					TextInput
+						id:frags
+						buf:int(self.text) if self.text else 0
 					Label:
 						text:'XP'
 					TextInput
+						id:xp
+						buf:int(self.text) if self.text else 0
 					Label:
 						text:'Limit'
 					Spinner:
@@ -77,7 +86,7 @@
 					Button:
 						size_hint_y:None
 						text:'Search'
-						on_press: root.attack([tank.text,_map.text,battle.text])
+						on_press: root.attack()
 		Screen:
 			name:'scrn3'
 			BoxLayout:
