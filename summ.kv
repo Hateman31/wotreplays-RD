@@ -67,7 +67,7 @@
 					Spinner:
 						id:tank
 						values:root.tanks
-						text: self.values[0]
+						text: self.values[150]
 					Label:
 						text:'Map'
 					Spinner:
@@ -79,7 +79,7 @@
 					Spinner:
 						id:battle
 						values:root.battles
-						text: self.values[0]
+						text: self.values[-4]
 				BoxLayout:
 					size_hint_y:None
 					Button:
@@ -108,7 +108,7 @@
 					Button:
 						size_hint_y:None
 						text:'OK'
-						on_press:root.folder();root.path = filechooser.path
+						on_press:root.folder(filechooser.path)
 						on_release:sm.current='scrn2'
 		Screen:
 			name:'scrn4'

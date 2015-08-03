@@ -13,23 +13,24 @@ class Root(BoxLayout):
 	keys = ('tank','map','battle_type')
 	tanks,maps,battles = map(sorted,(data[x] for x in keys))
 	path = ''
+	if os.path.exists('data'):
+		with open('data') as f:
+			path = f.read()
 	def attack(self):
 		'''Main function. It start searching and loading goods'''
 		#read the load-folder
-		if os.path.exists('data'):
-			with open('data') as f1:
-				self.path = f.read()
 		tools.action(self.stuff)
 		#some code
 		#...
-	def folder(self):
+	def folder(self,path):
 		'''записывает в конфиг папку для сохранений'''
 		cwd = os.getcwd()
 		s = os.path.join(cwd,'data')
 		if not os.path.exists(s):
 			os.mkdir(s)
 		with open('data','w') as f:
-			f.write(self.path)
+			f.write(path)
+		self.path = path
 
 class SummApp(App):
 	def build(self):
