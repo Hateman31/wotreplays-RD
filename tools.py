@@ -54,6 +54,7 @@ def next_page(url):
 	else:
 		url = url+'page/2/'
 	return url
+	
 def action(kwargs):
 	url = query(*kwargs['query'])
 	linx = []
