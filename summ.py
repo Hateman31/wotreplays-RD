@@ -31,7 +31,6 @@ class Root(BoxLayout):
 
 class SummApp(App):
 	def build(self):
-		#print(os.path.exists('data.txt'))
 		self.title = 'Replays Downloader'
 		return Root()
 	

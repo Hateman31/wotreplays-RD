@@ -59,9 +59,10 @@ def action(kwargs):
 			print('Loading crash! Try later')
 			exit()
 		if not flag:
-			flag = site.find('a').get('href')
+			#flag = site.find('a',{'href':True}).get('href')
+			flag = site.select('a[class*=r-map]')[0].get('href')
 		else:
-			flag1 = site.find('a').get('href')
+			flag1 = site.select('a[class*=r-map]')[0].get('href')
 			if flag1 == flag: 
 				break
 		for replay in site.select('div.r-info')[:-1]:
@@ -73,7 +74,7 @@ def action(kwargs):
 				else:
 					break
 	last = os.listdir(kwargs['path'])
-	print(kwargs['path'])
+	#print(kwargs['path'])
 	fold = str(int(last[-1])+1) if last else '1'
 	path = os.path.join(kwargs['path'],fold)
 	load(path,linx)
