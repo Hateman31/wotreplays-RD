@@ -24,11 +24,10 @@ class Root(BoxLayout):
 	def folder(self,path):
 		'''записывает в конфиг папку для сохранений'''
 		cwd = os.getcwd()
-		s = os.path.join(cwd,'data.txt')
-		if not os.path.exists(s):
-			os.mkdir(s)
-		with open('data.txt','w') as f:
-			f.write(path)
+		#s = os.path.join(cwd,'data.txt')
+		if not os.path.exists(s+'data.txt'):
+			with open(s+'data.txt','w') as f:
+				f.write(path)
 		self.path = path
 
 class SummApp(App):
