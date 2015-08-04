@@ -13,8 +13,8 @@ class Root(BoxLayout):
 	keys = ('tank','map','battle_type')
 	tanks,maps,battles = map(sorted,(data[x] for x in keys))
 	path = ''
-	if os.path.exists('data'):
-		with open('data') as f:
+	if os.path.exists('data.txt'):
+		with open('data.txt') as f:
 			path = f.read()
 	def attack(self):
 		'''Main function. It start searching and loading goods'''
@@ -24,10 +24,10 @@ class Root(BoxLayout):
 	def folder(self,path):
 		'''записывает в конфиг папку для сохранений'''
 		cwd = os.getcwd()
-		s = os.path.join(cwd,'data')
+		s = os.path.join(cwd,'data.txt')
 		if not os.path.exists(s):
 			os.mkdir(s)
-		with open('data','w') as f:
+		with open('data.txt','w') as f:
 			f.write(path)
 		self.path = path
 
