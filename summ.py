@@ -25,8 +25,8 @@ class Root(BoxLayout):
 		'''записывает в конфиг папку для сохранений'''
 		cwd = os.getcwd()
 		#s = os.path.join(cwd,'data.txt')
-		if not os.path.exists(s+'data.txt'):
-			with open(s+'data.txt','w') as f:
+		if not os.path.exists(cwd+'data.txt'):
+			with open(cwd+'data.txt','w') as f:
 				f.write(path)
 		self.path = path
 
