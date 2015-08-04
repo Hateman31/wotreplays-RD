@@ -59,7 +59,6 @@ def action(kwargs):
 			print('Loading crash! Try later')
 			exit()
 		if not flag:
-			#flag = site.find('a',{'href':True}).get('href')
 			flag = site.select('a[class*=r-map]')[0].get('href')
 		else:
 			flag1 = site.select('a[class*=r-map]')[0].get('href')
