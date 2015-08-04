@@ -15,7 +15,7 @@ def query(tank=None,_map=None,battle=None):
 		q = 'http://wotreplays.ru/site/index/version/22/'
 		for key,rec in zip(keys,dlist):
 			q+='{0}/{1}/'.format(key,data[key][rec])
-		return q+'sort/inflicted_damage.desc'
+		return q+'sort/inflicted_damage.desc/'
 		#print( q+'sort/inflicted_damage.desc')
 	else:
 		print('Error! Some data is None!')
@@ -47,6 +47,12 @@ def record(data):
 	res['url'] = data.find('a').get('href')
 	return res
 
+def next_page(url):
+	if 'page' in url:
+		url[-2] = str(int(url[-2])+1))
+	else:
+		url = url+'page/2/'
+	return url
 def action(kwargs):
 	url = query(*kwargs['query'])
 	linx = []
@@ -72,6 +78,7 @@ def action(kwargs):
 					limit-=1
 				else:
 					break
+		url = next_page(url)
 	last = os.listdir(kwargs['path'])
 	#print(kwargs['path'])
 	fold = str(int(last[-1])+1) if last else '1'
