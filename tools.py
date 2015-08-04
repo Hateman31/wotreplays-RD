@@ -12,7 +12,7 @@ def query(tank=None,_map=None,battle=None):
 	dlist = (tank,_map,battle)
 	keys = ('tank','map','battle_type')
 	if all(dlist):
-		q = 'http://wotreplays.ru/site/index/'
+		q = 'http://wotreplays.ru/site/index/version/22/'
 		for key,rec in zip(keys,dlist):
 			q+='{0}/{1}/'.format(key,data[key][rec])
 		return q+'sort/inflicted_damage.desc'
