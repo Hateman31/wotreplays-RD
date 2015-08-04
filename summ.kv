@@ -1,9 +1,9 @@
 #: kivy 1.9.0
 #:import Factory kivy.factory.Factory
 <Root>:
-	params: [dmg.buf,xp.buf,frags.buf]
+	params: {'dmg':dmg.buf,'xp':xp.buf,'frags':frags.buf}
 	query: [tank.text,_map.text,battle.text]
-	stuff: {'query':self.query,'params':self.params}
+	stuff: {'query':self.query,'params':self.params,'limit':limit.buf}
 	orientation:'vertical'
 	padding:16
 	spacing:6
@@ -47,8 +47,9 @@
 						text:'Limit'
 					Spinner:
 						id:limit
-						values:['10','25','100']
+						values:['5','10','25','100']
 						text:self.values[0]
+						buf:int(self.text)
 				Button:
 					size_hint:.5,None
 					pos_hint:{'center_x':.5}
@@ -89,7 +90,7 @@
 					Button:
 						size_hint_y:None
 						text:'Search'
-						on_press: 
+						on_release: 
 							if root.path: root.attack()
 							else: sm.current ='scrn4'
 		Screen:

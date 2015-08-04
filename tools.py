@@ -1,46 +1,63 @@
 import requests as r
 from bs4 import BeautifulSoup as bs
+import json
+import os
+import wget
+
+with open('data1') as f:
+	data = json.loads(f.read())
 
 def query(tank=None,_map=None,battle=None):
 	'''make a url query'''
 	dlist = (tank,_map,battle)
-	keys = ['dmg','xp','frags']
+	keys = ('tank','map','battle_type')
 	if all(dlist):
-		q = 'wotreplays.ru/site/index/'
+		q = 'http://wotreplays.ru/site/index/'
 		for key,rec in zip(keys,dlist):
 			q+='{0}/{1}/'.format(key,data[key][rec])
-		#~ return r.get(q+'inflicted_damage.desc').content
-		return q+'/sort/inflicted_damage.desc'
+		return q+'sort/inflicted_damage.desc'
+		#print( q+'sort/inflicted_damage.desc')
 	else:
 		print('Error! Some data is None!')
 		return None
+
 def load(path,linx):
 	'''download replays'''
+	q = 'http://wotreplays.ru/'
 	for url in linx:
-		bites = R.get(url).content
-		name = os.path.join(path,url.split('/')[-1]+'.wotreplay')
-		with open(name,'wb') as f:
-			f.write(bites)
+		buf = url.split('#')
+		s = buf[0].replace('/site/','site/download/')
+		if not os.path.exists(path):
+			os.mkdir(path)
+		name = os.path.join(path,buf[-1]+'.wotreplay')
+		print('\n','Load',buf[0])
+		wget.download(q+s,out=name)
 
 def isGood(rec,pars):
 	'''compares property of replay with args'''
+	keys = ('dmg','xp','frags')
 	for key in keys:
 		x = 1 if rec[key]>=pars[key] else 0
 	return x
 
 def record(data):
 	res,css = {},'i[class*="{0}"]'
-	for x in ['frags','exp','dmg']:
+	for x in ['frags','xp','dmg']:
 		res[x] = int(data.select(css.format(x))[0].parent.text.strip())
-	res['link'] = data.find('a').get('href')
+	res['url'] = data.find('a').get('href')
 	return res
 
 def action(kwargs):
-	url = query(kwargs['query'])
+	url = query(*kwargs['query'])
 	linx = []
 	flag = None
+	limit = kwargs['limit']
 	while 1:
-		site = bs(r.get(url).content)
+		try:
+			site = bs(r.get(url,timeout=30).content)
+		except:
+			print('Loading crash! Try later')
+			exit()
 		if not flag:
 			flag = site.find('a').get('href')
 		else:
@@ -56,8 +73,9 @@ def action(kwargs):
 				else:
 					break
 	last = os.listdir(kwargs['path'])
-	folder = str(int(last[-1])+1) if last else '1'
-	path = os.path.join(self.path,folder)
+	print(kwargs['path'])
+	fold = str(int(last[-1])+1) if last else '1'
+	path = os.path.join(kwargs['path'],fold)
 	load(path,linx)
-	#some code
+	print('\n','<'*6,'Finish','>'*6)
 

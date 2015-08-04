@@ -18,9 +18,8 @@ class Root(BoxLayout):
 			path = f.read()
 	def attack(self):
 		'''Main function. It start searching and loading goods'''
-		#read the load-folder
+		self.stuff['path'] = self.path
 		tools.action(self.stuff)
-		#some code
 		#...
 	def folder(self,path):
 		'''записывает в конфиг папку для сохранений'''
