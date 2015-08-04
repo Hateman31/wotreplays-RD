@@ -84,7 +84,7 @@ def action(kwargs):
 		url = next_page(url)
 	last = sorted(os.listdir(kwargs['path']))
 	fold = str(int(last[-1])+1) if last else '1'
-	#print(fold)
+	print(fold)
 	path = os.path.join(kwargs['path'],fold)
 	load(path,linx)
 	print('\n','<'*6,'Finish','>'*6)
