@@ -75,15 +75,16 @@ def action(kwargs):
 		for replay in site.select('div.r-info')[:-1]:
 			rec = record(replay)
 			if isGood(rec,kwargs['params']):
-				linx+=[rec['url']]
 				if limit:
+					linx+=[rec['url']]
 					limit-=1
+					#print(limit)
 				else:
 					break
 		url = next_page(url)
-	last = os.listdir(kwargs['path'])
-	#print(kwargs['path'])
+	last = sorted(os.listdir(kwargs['path']))
 	fold = str(int(last[-1])+1) if last else '1'
+	#print(fold)
 	path = os.path.join(kwargs['path'],fold)
 	load(path,linx)
 	print('\n','<'*6,'Finish','>'*6)
