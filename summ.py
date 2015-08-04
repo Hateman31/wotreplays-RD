@@ -23,15 +23,15 @@ class Root(BoxLayout):
 		#...
 	def folder(self,path):
 		'''записывает в конфиг папку для сохранений'''
-		cwd = os.getcwd()
-		#s = os.path.join(cwd,'data.txt')
-		if not os.path.exists(cwd+'data.txt'):
-			with open(cwd+'data.txt','w') as f:
+		cwd = oa.path.join(os.getcwd(),'data.txt')
+		if not os.path.exists(cwd):
+			with open(cwd,'w') as f:
 				f.write(path)
 		self.path = path
 
 class SummApp(App):
 	def build(self):
+		#print(os.path.exists('data.txt'))
 		self.title = 'Replays Downloader'
 		return Root()
 	
