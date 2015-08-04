@@ -49,7 +49,8 @@ def record(data):
 
 def next_page(url):
 	if 'page' in url:
-		url[-2] = str(int(url[-2])+1))
+		num = str(int(url[-2])+1)
+		url =url[:-2]+num+'/'
 	else:
 		url = url+'page/2/'
 	return url
