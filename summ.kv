@@ -90,9 +90,13 @@
 					Button:
 						size_hint_y:None
 						text:'Search'
+						on_press:
+							self.text='Loading...';root.disabled=True
 						on_release: 
 							if root.path: root.attack()
 							else: sm.current ='scrn4'
+							root.disabled=False
+							self.text='Search'
 		Screen:
 			name:'scrn3'
 			BoxLayout:
