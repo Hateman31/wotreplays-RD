@@ -67,12 +67,15 @@ def action(kwargs):
 			print('Loading crash! Try later')
 			exit()
 		r_map = site.select('a[class*=r-map]')
-		if r_map and not(flag):
-			flag = r_map[0].get('href')
+		if r_map:
+			if not flag:
+				flag = r_map[0].get('href')
+			else:
+				flag1 = r_map[0].get('href')
+				if flag1 == flag: 
+					break
 		else:
-			flag1 = r_map[0].get('href')
-			if flag1 == flag: 
-				break
+			break
 		for replay in site.select('div.r-info')[:-1]:
 			rec = record(replay)
 			if isGood(rec,kwargs['params']):
