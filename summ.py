@@ -2,8 +2,6 @@ from kivy.app import App
 from kivy.uix.boxlayout	import BoxLayout
 import json
 import os
-import requests as r
-from bs4 import BeautifulSoup as bs
 import tools
 
 with open('data1') as f:
