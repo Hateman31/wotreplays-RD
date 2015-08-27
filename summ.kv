@@ -1,9 +1,13 @@
 #: kivy 1.9.0
 #:import Factory kivy.factory.Factory
 
+<Texted@TextInput>:
+	buf:int(self.text) if self.text else 0
 <Box@BoxLayout>:
 	orientation:'vertical'
 	spacing:10
+<Btn@Button>:
+	size_hint_y:None
 
 <Root>:
 	params: {'dmg':dmg.buf,'xp':xp.buf,'frags':frags.buf}
@@ -15,13 +19,11 @@
 	BoxLayout:
 		spacing:6
 		size_hint_y:None
-		Button:
+		Btn:
 			text:'Choose folder'
-			size_hint_y:None
 			on_release:sm.current='scrn3'
-		Button:
+		Btn:
 			text:'Exit'
-			size_hint_y:None
 			on_press:exit()
 	ScreenManager:
 		id:sm
@@ -33,19 +35,16 @@
 					rows:4
 					Label:
 						text:'Damage'
-					TextInput:
+					Texted:
 						id:dmg
-						buf:int(self.text) if self.text else 0
 					Label:
 						text:'Frags'
-					TextInput
+					Texted:
 						id:frags
-						buf:int(self.text) if self.text else 0
 					Label:
 						text:'XP'
-					TextInput
+					Texted:
 						id:xp
-						buf:int(self.text) if self.text else 0
 					Label:
 						text:'Limit'
 					Spinner:
@@ -84,12 +83,10 @@
 						text: self.values[-4]
 				BoxLayout:
 					size_hint_y:None
-					Button:
-						size_hint_y:None
+					Btn:
 						text:'Prev'
 						on_release:sm.current='scrn1'
-					Button:
-						size_hint_y:None
+					Btn:
 						text:'Search'
 						on_press:
 							self.text='Loading...';root.disabled=True
@@ -105,12 +102,10 @@
 					id:filechooser
 				BoxLayout:
 					size_hint_y:None
-					Button:
-						size_hint_y:None
+					Btn:
 						text:'Cancel'
 						on_release:sm.current='scrn1'
-					Button:
-						size_hint_y:None
+					Btn:
 						text:'OK'
 						on_press:root.folder(filechooser.path)
 						on_release:sm.current='scrn2'
