@@ -4,6 +4,12 @@ import json
 import os
 import tools
 
+from kivy.config import Config
+pairs = {
+		'fullscreen': '0',
+		'resizable': '0'
+		}
+Config.setall('graphics',pairs)
 with open('data1') as f:
 	data = json.loads(f.read())
 
@@ -28,9 +34,9 @@ class Root(BoxLayout):
 		self.path = path
 
 class SummApp(App):
-	def build(self):
+		config = self.config
 		self.title = 'Replays Downloader'
+		print(self.config)
 		return Root()
-	
 if __name__ == '__main__':
 	SummApp().run()
