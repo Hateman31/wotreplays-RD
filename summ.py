@@ -10,6 +10,7 @@ pairs = {
 		'resizable': '0'
 		}
 Config.setall('graphics',pairs)
+
 with open('data1') as f:
 	data = json.loads(f.read())
 
