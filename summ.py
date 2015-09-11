@@ -35,9 +35,10 @@ class Root(BoxLayout):
 		self.path = path
 
 class SummApp(App):
+	def build(self):
 		config = self.config
 		self.title = 'Replays Downloader'
-		print(self.config)
 		return Root()
+		
 if __name__ == '__main__':
 	SummApp().run()
