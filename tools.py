@@ -16,7 +16,6 @@ def query(tank=None,_map=None,battle=None):
 		for key,rec in zip(keys,dlist):
 			q+='{0}/{1}/'.format(key,data[key][rec])
 		return q+'sort/inflicted_damage.desc/'
-		#print( q+'sort/inflicted_damage.desc')
 	else:
 		print('Error! Some data is None!')
 		return None

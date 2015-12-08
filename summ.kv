@@ -3,16 +3,20 @@
 
 <Texted@TextInput>:
 	buf:int(self.text) if self.text else 0
+	font_size:60
 <Box@BoxLayout>:
 	orientation:'vertical'
 	spacing:10
 <Btn@Button>:
 	size_hint_y:None
+<Lbl@Label>:
+	font_size:60
 
 <Root>:
 	params: {'dmg':dmg.buf,'xp':xp.buf,'frags':frags.buf}
 	query: [tank.text,_map.text,battle.text]
 	stuff: {'query':self.query,'params':self.params,'limit':limit.buf}
+	sm: sm
 	orientation:'vertical'
 	padding:16
 	spacing:6
@@ -33,22 +37,24 @@
 				GridLayout:
 					cols:2
 					rows:4
-					Label:
+					spacing:6
+					Lbl:
 						text:'Damage'
 					Texted:
 						id:dmg
-					Label:
+					Lbl:
 						text:'Frags'
 					Texted:
 						id:frags
-					Label:
+					Lbl:
 						text:'XP'
 					Texted:
 						id:xp
-					Label:
+					Lbl:
 						text:'Limit'
 					Spinner:
 						id:limit
+						#size_hint_x:None
 						values:['5','10','25','100']
 						text:self.values[0]
 						buf:int(self.text)
@@ -63,19 +69,19 @@
 				GridLayout:
 					cols:2
 					rows:3
-					Label:
+					Lbl:
 						text:'Tank'
 					Spinner:
 						id:tank
 						values:root.tanks
 						text: self.values[150]
-					Label:
+					Lbl:
 						text:'Map'
 					Spinner:
 						id:_map
 						values:root.maps
 						text: self.values[0]
-					Label:
+					Lbl:
 						text:'Battle'
 					Spinner:
 						id:battle
@@ -112,6 +118,6 @@
 		Screen:
 			name:'scrn4'
 			Box:
-				Label:
+				Lbl:
 					text:'Please!Choose folder for replays!'
 					font_size:35

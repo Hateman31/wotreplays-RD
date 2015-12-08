@@ -1,10 +1,11 @@
 from kivy.app import App
 from kivy.uix.boxlayout	import BoxLayout
+from kivy.config import Config
+from kivy.core.window import Window
 import json
 import os
 import tools
 
-from kivy.config import Config
 pairs = {
 		'fullscreen': '0',
 		'resizable': '0'
@@ -15,12 +16,34 @@ with open('data1') as f:
 	data = json.loads(f.read())
 
 class Root(BoxLayout):
-	keys = ('tank','map','battle_type')
+
+	keys,path = ('tank','map','battle_type'),''
 	tanks,maps,battles = map(sorted,(data[x] for x in keys))
-	path = ''
 	if os.path.exists('data.txt'):
 		with open('data.txt') as f:
 			path = f.read()
+
+	def __init__(self, **kwargs):
+		super(Root, self).__init__(**kwargs)
+		self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
+		self._keyboard.bind(on_key_down=self._on_keyboard_down)
+
+	def _keyboard_closed(self):
+		self._keyboard.unbind(on_key_down=self._on_keyboard_down)
+		self._keyboard = None
+
+	def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
+		if keycode[1] == 'right':
+			self.sm.current = self.sm.next()
+		if keycode[1] == 'left':
+			self.sm.current = self.sm.previous()
+		if keycode[1] == 'escape':
+			#Продумать при нажатии esc 
+			#подтверждения выхода,
+			#если идет загрузка
+			exit
+		return True
+			
 	def attack(self):
 		'''Main function. It start searching and loading goods'''
 		self.stuff['path'] = self.path
@@ -35,6 +58,7 @@ class Root(BoxLayout):
 		self.path = path
 
 class SummApp(App):
+	
 	def build(self):
 		config = self.config
 		self.title = 'Replays Downloader'
