@@ -10,6 +10,7 @@ pairs = {
 		'fullscreen': '0',
 		'resizable': '0'
 		}
+
 Config.setall('graphics',pairs)
 
 with open('data1') as f:
@@ -37,11 +38,11 @@ class Root(BoxLayout):
 			self.sm.current = self.sm.next()
 		if keycode[1] == 'left':
 			self.sm.current = self.sm.previous()
-		if keycode[1] == 'escape':
 			#Продумать при нажатии esc 
 			#подтверждения выхода,
 			#если идет загрузка
-			exit
+		if keycode[1] == 'escape'and not self.disabled:
+				exit()
 		return True
 			
 	def attack(self):
