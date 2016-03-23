@@ -9,14 +9,29 @@
 	spacing:10
 <Btn@Button>:
 	size_hint_y:None
+    background_color:.5,.4,1,1
+    font_size:30
 <Lbl@Label>:
+    canvas:
+        Color:
+            rgba: 0.6, 0.1, 0.8, 0.5
+        Rectangle:
+            pos: self.pos
+            size: self.size
 	font_size:60
 
 <Root>:
+    #some variables
 	params: {'dmg':dmg.buf,'xp':xp.buf,'frags':frags.buf}
 	query: [tank.text,_map.text,battle.text]
 	stuff: {'query':self.query,'params':self.params,'limit':limit.buf}
 	sm: sm
+    canvas:
+        Color:
+            rgba: 0.5, 0.5, 0.5, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
 	orientation:'vertical'
 	padding:16
 	spacing:6
@@ -54,12 +69,11 @@
 						text:'Limit'
 					Spinner:
 						id:limit
-						#size_hint_x:None
 						values:['5','10','25','100']
 						text:self.values[0]
 						buf:int(self.text)
-				Button:
-					size_hint:.5,None
+				Btn:
+					size_hint_x:.5
 					pos_hint:{'center_x':.5}
 					text:'Next'
 					on_release:sm.current='scrn2'
