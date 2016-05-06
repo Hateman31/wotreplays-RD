@@ -52,10 +52,11 @@ class Root(BoxLayout):
 class SummApp(App):	
 	def build(self):
 		config = self.config
-		MyKeyboard = Window.request_keyboard(None, Root)
-		MyKeyboard.bind(on_key_down=Root.keyPressed)
+		root = Root()
+		MyKeyboard = Window.request_keyboard(None, root)
+		MyKeyboard.bind(on_key_down=root.keyPressed)
 		self.title = 'Replays Downloader'
-		return Root()
+		return root
 		
 if __name__ == '__main__':
 	SummApp().run()
