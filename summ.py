@@ -24,12 +24,7 @@ class Root(BoxLayout):
 		with open('data.txt') as f:
 			path = f.read()
 
-	def __init__(self, **kwargs):
-		super(Root, self).__init__(**kwargs)
-		self._keyboard = Window.request_keyboard(None, self)
-		self._keyboard.bind(on_key_down=self._on_keyboard_down)
-
-	def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
+	def keyPressed(self, keyboard, keycode, text, modifiers):
 		if keycode[1] == 'right':
 			self.sm.current = self.sm.next()
 		if keycode[1] == 'left':
@@ -57,6 +52,8 @@ class Root(BoxLayout):
 class SummApp(App):	
 	def build(self):
 		config = self.config
+		MyKeyboard = Window.request_keyboard(None, Root)
+		MyKeyboard.bind(on_key_down=Root.keyPressed)
 		self.title = 'Replays Downloader'
 		return Root()
 		
