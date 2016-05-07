@@ -21,11 +21,12 @@
 	font_size:60
 
 <Root>:
-    #some variables
+    #some yours variables as a property by Root
 	params: {'dmg':dmg.buf,'xp':xp.buf,'frags':frags.buf}
 	query: [tank.text,_map.text,battle.text]
 	stuff: {'query':self.query,'params':self.params,'limit':limit.buf}
 	sm: sm
+    
     canvas:
         Color:
             rgba: 0.5, 0.5, 0.5, 1
@@ -33,9 +34,11 @@
             pos: self.pos
             size: self.size
 	orientation:'vertical'
-	padding:16
+	
+    padding:16
 	spacing:6
-	BoxLayout:
+	
+    BoxLayout:
 		spacing:6
 		size_hint_y:None
 		Btn:
