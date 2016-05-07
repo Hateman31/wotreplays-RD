@@ -42,7 +42,7 @@ class Root(BoxLayout):
 		tools.action(self.stuff)
 		#...
 	def folder(self,path):
-		'''записывает в конфиг папку для сохранений'''
+		'''Remember folder to save replays'''
 		cwd = os.path.join(os.getcwd(),'data.txt')
 		if not os.path.exists(cwd):
 			with open(cwd,'w') as f:
