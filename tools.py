@@ -40,6 +40,7 @@ def isGood(rec,pars):
 	return x
 
 def record(data):
+	'''Take replay params from page'''
 	res,css = {},'i[class*="{0}"]'
 	for x in ['frags','xp','dmg']:
 		res[x] = int(data.select(css.format(x))[0].parent.text.strip())
@@ -61,7 +62,7 @@ def action(kwargs):
 	limit = kwargs['limit']
 	while 1:
 		try:
-			site = bs(r.get(url,timeout=30).content)
+			site = bs(r.get(url,timeout=30).content,"html5lib")
 		except:
 			print('Loading crash! Try later')
 			exit()
@@ -85,6 +86,7 @@ def action(kwargs):
 				else:
 					break
 		url = next_page(url)
+	print(x)
 	last = sorted(os.listdir(kwargs['path']),key=lambda x:int(x))
 	fold = str(int(last[-1])+1) if last else '1'
 	path = os.path.join(kwargs['path'],fold)
