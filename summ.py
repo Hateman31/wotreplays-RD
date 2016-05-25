@@ -6,12 +6,12 @@ import json
 import os
 import tools
 
-pairs = {
+PARAMS = {
 		'fullscreen': '0',
 		'resizable': '0'
 		}
 
-Config.setall('graphics',pairs)
+Config.setall('graphics',PARAMS)
 
 with open('data1') as f:
 	data = json.loads(f.read())
@@ -41,6 +41,7 @@ class Root(BoxLayout):
 		self.stuff['path'] = self.path
 		tools.action(self.stuff)
 		#...
+
 	def folder(self,path):
 		'''Remember folder to save replays'''
 		cwd = os.path.join(os.getcwd(),'data.txt')

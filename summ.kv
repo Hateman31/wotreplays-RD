@@ -4,13 +4,16 @@
 <Texted@TextInput>:
 	buf:int(self.text) if self.text else 0
 	font_size:60
+
 <Box@BoxLayout>:
 	orientation:'vertical'
 	spacing:10
+
 <Btn@Button>:
 	size_hint_y:None
     background_color:.5,.4,1,1
     font_size:30
+
 <Lbl@Label>:
     canvas:
         Color:
@@ -27,6 +30,7 @@
 	stuff: {'query':self.query,'params':self.params,'limit':limit.buf}
 	sm: sm
     
+    #background
     canvas:
         Color:
             rgba: 0.5, 0.5, 0.5, 1
