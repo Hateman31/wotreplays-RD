@@ -86,10 +86,14 @@ def action(kwargs):
 				else:
 					break
 		url = next_page(url)
-	print(x)
-	last = sorted(os.listdir(kwargs['path']),key=lambda x:int(x))
-	fold = str(int(last[-1])+1) if last else '1'
-	path = os.path.join(kwargs['path'],fold)
-	load(path,linx)
-	print('\n','<'*6,'Finish','>'*6)
-
+	#TODO: 1) папка для реплеев должна либо создаваться
+	#2) Если папка пуста last = 0
+	
+	try:
+		last = sorted(os.listdir(kwargs['path']),key=lambda x:int(x))
+		fold = str(int(last[-1])+1) if last else '1'
+		path = os.path.join(kwargs['path'],fold)
+		load(path,linx)
+		print('\n','<'*6,'Finish','>'*6)
+	except ValueError:
+		print(os.listdir(kwargs['path']) or 'List are empty')
