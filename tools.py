@@ -12,7 +12,7 @@ def query(tank=None,_map=None,battle=None):
 	dlist = (tank,_map,battle)
 	keys = ('tank','map','battle_type')
 	if all(dlist):
-		q = 'http://wotreplays.ru/site/index/version/38/'
+		q = 'http://wotreplays.ru/site/index/version/43/'
 		for key,rec in zip(keys,dlist):
 			q+='{0}/{1}/'.format(key,data[key][rec])
 		return q+'sort/inflicted_damage.desc/'
@@ -32,7 +32,7 @@ def load(path,linx):
 		print('\n','Load',buf[0])
 		wget.download(q+s,out=name)
 
-def isGood(rec,pars):
+def Checked(rec,pars):
 	'''compares property of replay with args'''
 	keys = ('dmg','xp','frags')
 	for key in keys:
@@ -78,7 +78,7 @@ def action(kwargs):
 			break
 		for replay in site.select('div.r-info')[:-1]:
 			rec = record(replay)
-			if isGood(rec,kwargs['params']):
+			if Checked(rec,kwargs['params']):
 				if limit:
 					linx+=[rec['url']]
 					limit-=1
@@ -86,7 +86,9 @@ def action(kwargs):
 				else:
 					break
 		url = next_page(url)
-	#TODO: 1) папка для реплеев должна либо создаваться
+
+#TODO: 
+	#1) папка для реплеев должна создаваться
 	#2) Если папка пуста last = 0
 	
 	try:
@@ -97,3 +99,6 @@ def action(kwargs):
 		print('\n','<'*6,'Finish','>'*6)
 	except ValueError:
 		print(os.listdir(kwargs['path']) or 'List are empty')
+
+if __name__ == "__main__":
+	pass
