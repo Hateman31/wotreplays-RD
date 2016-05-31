@@ -62,7 +62,7 @@ def action(kwargs):
 	Crawling(url,linx,limit)
 
 def Crawling(url,linx,limit,flag = None):
-	while 1:
+	while limit:
 		#Если загрузка упала - вернуть в окно сообщение об этом
 		try:
 			site = openPage(url)
@@ -80,17 +80,10 @@ def Crawling(url,linx,limit,flag = None):
 					break
 		else:
 			break
-		for replay in site.select('div.r-info')[:-1]:
-			rec = record(replay)
-			if Checked(rec,kwargs['params']):
-				if limit:
-					linx+=[rec['url']]
-					limit-=1
-					#print(limit)
-				#breakin is BAD!!! VERY VERY BAD!!!
-				else:
-					break
-
+		
+		replays = site.select('div.r-info')[:-1]
+		
+		linx = FindLinks(replays,limit,linx)
 		url = next_page(url)
 
 	#TODO: 
@@ -113,6 +106,19 @@ def Crawling(url,linx,limit,flag = None):
 
 def openPage(url):
 	return bs(r.get(url,timeout=30).content,"html5lib")
+
+def FindLinks(replays,limit,linx):	
+	linx = linx or []
+	for replay in replays:
+		rec = record(replay)
+		if Checked(rec,kwargs['params']):
+			if limit:
+				linx+=[rec['url']]
+				limit-=1
+			#breakin is BAD!!! VERY VERY BAD!!!
+			else:
+				break
+	return linx
 	
 if __name__ == "__main__":
 	test_url = 'https://wotreplays.ru/site/index/version/43/tank/837/map/5/battle_type/1/sort/upLoadinged_at.desc/'
