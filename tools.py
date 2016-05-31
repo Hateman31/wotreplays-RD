@@ -5,7 +5,7 @@ import os
 import wget
 
 with open('data1') as f:
-	data = json.loads(f.read())
+	data = json.Loadings(f.read())
 
 def query(tank=None,_map=None,battle=None):
 	'''make a url query'''
@@ -20,17 +20,17 @@ def query(tank=None,_map=None,battle=None):
 		print('Error! Some data is None!')
 		return None
 
-def load(path,linx):
-	'''download replays'''
+def Loading(path,linx):
+	'''downLoading replays'''
 	q = 'http://wotreplays.ru/'
 	for url in linx:
 		buf = url.split('#')
-		s = buf[0].replace('/site/','site/download/')
+		s = buf[0].replace('/site/','site/downLoading/')
 		if not os.path.exists(path):
 			os.mkdir(path)
 		name = os.path.join(path,buf[-1]+'.wotreplay')
-		print('\n','Load',buf[0])
-		wget.download(q+s,out=name)
+		print('\n','Loading',buf[0])
+		wget.downLoading(q+s,out=name)
 
 def Checked(rec,pars):
 	'''compares property of replay with args'''
@@ -58,15 +58,19 @@ def next_page(url):
 def action(kwargs):
 	url = query(*kwargs['query'])
 	linx = []
-	flag = None
 	limit = kwargs['limit']
+	Crawling(url,linx,limit)
+
+def Crawling(url,linx,limit,flag = None):
 	while 1:
+		#Если загрузка упала - вернуть в окно сообщение об этом
 		try:
-			site = bs(r.get(url,timeout=30).content,"html5lib")
+			site = openPage(url)
 		except:
-			print('Loading crash! Try later')
+			print('Loadinging crash! Try later')
 			exit()
 		r_map = site.select('a[class*=r-map]')
+		#breakin is BAD!!! VERY VERY BAD!!!
 		if r_map:
 			if not flag:
 				flag = r_map[0].get('href')
@@ -83,22 +87,34 @@ def action(kwargs):
 					linx+=[rec['url']]
 					limit-=1
 					#print(limit)
+				#breakin is BAD!!! VERY VERY BAD!!!
 				else:
 					break
+
 		url = next_page(url)
 
-#TODO: 
-	#1) папка для реплеев должна создаваться
-	#2) Если папка пуста last = 0
+	#TODO: 
+		#1) папка для реплеев должна создаваться
+		#2) Если папка пуста last = 0
 	
 	try:
-		last = sorted(os.listdir(kwargs['path']),key=lambda x:int(x))
-		fold = str(int(last[-1])+1) if last else '1'
-		path = os.path.join(kwargs['path'],fold)
-		load(path,linx)
-		print('\n','<'*6,'Finish','>'*6)
+		#What return os.listdir ???
+		folder_list = os.listdir(kwargs['path'])
+		folder_list.sort()
+		LastNum = folder_list[-1] if folder_list else '0'
 	except ValueError:
 		print(os.listdir(kwargs['path']) or 'List are empty')
+	
+	new_fold = int(LastNum)+1
+	path = os.path.join(kwargs['path'],str(new_fold))
+	Loading(path,linx)
 
+	print('\n','<'*6,'Finish','>'*6)
+
+def openPage(url):
+	return bs(r.get(url,timeout=30).content,"html5lib")
+	
 if __name__ == "__main__":
-	pass
+	test_url = 'https://wotreplays.ru/site/index/version/43/tank/837/map/5/battle_type/1/sort/upLoadinged_at.desc/'
+	site = openPage(test_url)
+	print(site.select('div.r-info')[:-1])
