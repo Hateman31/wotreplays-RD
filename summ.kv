@@ -74,12 +74,16 @@
 						id:xp
 					Lbl:
 						text:'Limit'
-#                    заменить Spinner на шкалу
-					Spinner:
-						id:limit
-						values:['5','10','25','100']
-						text:self.values[0]
-						buf:int(self.text)
+                    BoxLayout:
+                        Lbl:
+                            text:str(limit.value)
+                        Slider:
+                            id:limit
+                            min:5
+                            max:100
+                            step:5
+                            buf:self.value
+                        
 				Btn:
 					size_hint_x:.5
 					pos_hint:{'center_x':.5}
