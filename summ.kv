@@ -1,6 +1,8 @@
 #: kivy 1.9.0
 #:import Factory kivy.factory.Factory
 
+#TODO: add progress-bar to loading
+
 <Texted@TextInput>:
 	buf:int(self.text) if self.text else 0
 	font_size:60
@@ -44,13 +46,14 @@
 	
     BoxLayout:
 		spacing:6
-		size_hint_y:None
+		size_hint_y:.2
 		Btn:
 			text:'Choose folder'
 			on_release:sm.current='scrn3'
 		Btn:
 			text:'Exit'
 			on_press:exit()
+
 	ScreenManager:
 		id:sm
 		Screen:

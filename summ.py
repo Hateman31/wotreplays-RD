@@ -54,6 +54,7 @@ class SummApp(App):
 	def build(self):
 		config = self.config
 		root = Root()
+		Window.size = (500,400)
 		MyKeyboard = Window.request_keyboard(None, root)
 		MyKeyboard.bind(on_key_down=root.keyPressed)
 		self.title = 'Replays Downloader'
