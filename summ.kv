@@ -1,7 +1,9 @@
 #: kivy 1.9.0
 #:import Factory kivy.factory.Factory
 
-#TODO: add progress-bar to loading
+#TODO:  
+#    add progress-bar to loading
+#    make from one files any files
 
 <Texted@TextInput>:
 	buf:int(self.text) if self.text else 0
@@ -23,7 +25,7 @@
         Rectangle:
             pos: self.pos
             size: self.size
-	font_size:60
+	font_size:20
 
 <Root>:
     #some yours variables as a property by Root
@@ -39,8 +41,8 @@
         Rectangle:
             pos: self.pos
             size: self.size
+
 	orientation:'vertical'
-	
     padding:16
 	spacing:6
 	
@@ -99,6 +101,7 @@
 				GridLayout:
 					cols:2
 					rows:3
+                    spacing:6
 					Lbl:
 						text:'Tank'
 					Spinner:
