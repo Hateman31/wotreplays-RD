@@ -32,14 +32,12 @@ def Loading(path,linx):
 		print('\n','Loading',buf[0])
 		wget.downLoading(q+s,out=name)
 
-def Checked(rec,pars):
+def Check(rec,pars):
 	'''compares property of replay with args'''
 	keys = ('dmg','xp','frags')
-	for key in keys:
-		x = 1 if rec[key]>=pars[key] else 0
-	return x
+	return all(rec[key]>=pars[key] for key in keys)
 
-def record(data):
+def replayObject(data):
 	'''Take replay params from page'''
 	res,css = {},'i[class*="{0}"]'
 	for x in ['frags','xp','dmg']:
@@ -108,14 +106,10 @@ def openPage(url):
 def FindLinks(replays,limit,linx,params):	
 	linx = linx or []
 	for replay in replays:
-		rec = record(replay)
-		if Checked(rec,params):
-			if limit:
-				linx+=[rec['url']]
-				limit-=1
-			#breakin is BAD!!! VERY VERY BAD!!!
-			else:
-				break
+		rec = replayObject(replay)
+		if limit and Check(rec,params):
+			linx+=[rec['url']]
+			limit-=1
 	return linx
 	
 if __name__ == "__main__":
