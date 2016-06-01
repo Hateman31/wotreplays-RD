@@ -4,20 +4,20 @@ import json
 import os
 import wget
 
-with open('data1') as f:
-	data = json.Loadings(f.read())
+with open('DATA1') as f:
+	DATA = json.Loadings(f.read())
 
 def query(tank=None,_map=None,battle=None):
-	'''make a url query'''
-	dlist = (tank,_map,battle)
+	'''make a url for query'''
+	dataList = (tank,_map,battle)
 	keys = ('tank','map','battle_type')
-	if all(dlist):
+	if all(dataList):
 		q = 'http://wotreplays.ru/site/index/version/43/'
-		for key,rec in zip(keys,dlist):
-			q+='{0}/{1}/'.format(key,data[key][rec])
+		for key,rec in zip(keys,dataList):
+			q+='{0}/{1}/'.format(key,DATA[key][rec])
 		return q+'sort/inflicted_damage.desc/'
 	else:
-		print('Error! Some data is None!')
+		print('Error! Some DATA is None!')
 		return None
 
 def Loading(path,linx):
@@ -83,15 +83,13 @@ def Crawling(url,linx,limit,flag = None):
 		
 		replays = site.select('div.r-info')[:-1]
 		
-		linx = FindLinks(replays,limit,linx)
+		linx = FindLinks(replays,limit,linx,kwargs['params'])
 		url = next_page(url)
 
 	#TODO: 
 		#1) папка для реплеев должна создаваться
-		#2) Если папка пуста last = 0
 	
 	try:
-		#What return os.listdir ???
 		folder_list = os.listdir(kwargs['path'])
 		folder_list.sort()
 		LastNum = folder_list[-1] if folder_list else '0'
@@ -107,11 +105,11 @@ def Crawling(url,linx,limit,flag = None):
 def openPage(url):
 	return bs(r.get(url,timeout=30).content,"html5lib")
 
-def FindLinks(replays,limit,linx):	
+def FindLinks(replays,limit,linx,params):	
 	linx = linx or []
 	for replay in replays:
 		rec = record(replay)
-		if Checked(rec,kwargs['params']):
+		if Checked(rec,params):
 			if limit:
 				linx+=[rec['url']]
 				limit-=1
