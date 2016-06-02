@@ -37,12 +37,15 @@ def Check(rec,pars):
 	keys = ('dmg','xp','frags')
 	return all(rec[key]>=pars[key] for key in keys)
 
-def replayObject(data):
+def replayObject(html):
 	'''Take replay params from page'''
-	res,css = {},'i[class*="{0}"]'
-	for x in ['frags','xp','dmg']:
-		res[x] = int(data.select(css.format(x))[0].parent.text.strip())
-	res['url'] = data.find('a').get('href')
+	css = 'i[class*="%s"]'
+	res = dict.fromkeys(['frags','xp','dmg'])
+	for x in res:
+		rule = css % x
+		res[x] = html.select(rule)[0].parent.text.strip()
+		res[x] = int(res[x])
+	res['url'] = html.find('a').get('href')
 	return res
 
 def next_page(url):
