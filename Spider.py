@@ -35,9 +35,8 @@ def Get_URL_and_name(url):
 def FindLinks(replays,limit,linx,params):	
 	linx = linx or []
 	for replay in replays:
-		rec = replayObject(replay)
-		if limit and checkReplay(rec,params):
-			linx+=Get_URL_and_name(rec['url'])
+		if limit and checkReplay(replay,params):
+			linx+=Get_URL_and_name(replay['url'])
 			limit-=1
 	return linx
 
@@ -50,11 +49,17 @@ def replayObject(html):
 	getText = lambda x : html.select(css % x)[0].parent.text
 	
 	for x in res:
-		res[x] = int(getText(x).strip())
-		
+		res[x] = int(getText(x).strip())		
 	res['url'] = html.find('a').get('href')
+	
 	return res
 
+def TakeAllReplays(site):
+	replays = []
+	replays_html = site.select('div.r-info')[:-1]
+	for html in replays_html:
+		replays +=[replayObject(html)]
+	return replays
 
 def Crawling(url,linx,limit,flag = None):
 	try:
@@ -63,10 +68,11 @@ def Crawling(url,linx,limit,flag = None):
 		print('Loading crash! Try later')
 		exit()
 	while limit and NextPageExists(site,flag):
-		#Если загрузка упала - вернуть сообщение об этом	
-		replays = site.select('div.r-info')[:-1]
+		replays = TakeAllReplays(site)
+		#linx = FindLinks(replays,limit,linx,self.stuff['params'])
 		linx = FindLinks(replays,limit,linx,kwargs['params'])
 		url = next_page(url)
+		#Если загрузка упала - вернуть сообщение об этом	
 		try:
 			site = openPage(url)
 		except:
