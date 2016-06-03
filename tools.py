@@ -5,9 +5,10 @@ import os
 import wget
 
 with open('DATA1') as f:
-	DATA = json.Loadings(f.read())
+	DATA = json.LoadingFiless(f.read())
 
-def query(tank=None,_map=None,battle=None):
+#оставить здесь
+def MakeQuery(tank=None,_map=None,battle=None):
 	'''make a url for query'''
 	dataList = (tank,_map,battle)
 	keys = ('tank','map','battle_type')
@@ -20,31 +21,42 @@ def query(tank=None,_map=None,battle=None):
 		print('Error! Some DATA is None!')
 		return None
 
-def Loading(path,linx):
-	'''downLoading replays'''
-	q = 'http://wotreplays.ru/'
+def LoadingFilesFiles(path,linx):
+	'''downLoadingFiles replays'''
+	base = 'http://wotreplays.ru/'
+	#TODO:
+		#url используется только в одной строке
+		#надо это исправить
 	for url in linx:
-		buf = url.split('#')
-		s = buf[0].replace('/site/','site/downLoading/')
+		url_buf = url.split('#')
+		url_end = url_buf[0].replace('/site/','site/download/')
+		
 		if not os.path.exists(path):
 			os.mkdir(path)
-		name = os.path.join(path,buf[-1]+'.wotreplay')
-		print('\n','Loading',buf[0])
-		wget.downLoading(q+s,out=name)
+		
+		name = os.path.join(path,url_buf[-1]+'.wotreplay')
+		
+		print('\n','LoadingFiles',url_buf[0])
+		
+		wget.download(base+url_end,out=name)
 
-def Check(rec,pars):
+#вынести в класс Replay
+def checkReplay(rec,pars):
 	'''compares property of replay with args'''
 	keys = ('dmg','xp','frags')
 	return all(rec[key]>=pars[key] for key in keys)
 
+#вынести в класс Replay
 def replayObject(html):
-	'''Take replay params from page'''
+	'''Take params of replay from page'''
 	css = 'i[class*="%s"]'
 	res = dict.fromkeys(['frags','xp','dmg'])
+	
+	getText = lambda x : html.select(css % x)[0].parent.text
+	
 	for x in res:
-		rule = css % x
-		res[x] = html.select(rule)[0].parent.text.strip()
-		res[x] = int(res[x])
+		res[x] = int(getText(x).strip())
+		
 	res['url'] = html.find('a').get('href')
 	return res
 
@@ -56,19 +68,14 @@ def next_page(url):
 		url = url+'page/2/'
 	return url
 	
-def action(kwargs):
-	url = query(*kwargs['query'])
-	linx = []
-	limit = kwargs['limit']
-	Crawling(url,linx,limit)
 
-def Crawling(url,linx,limit,flag = None):
+def takeAllReplays(url,linx,limit,flag = None):
 	while limit:
-		#Если загрузка упала - вернуть в окно сообщение об этом
+		#Если загрузка упала - вернуть сообщение об этом
 		try:
 			site = openPage(url)
 		except:
-			print('Loadinging crash! Try later')
+			print('LoadingFilesing crash! Try later')
 			exit()
 		r_map = site.select('a[class*=r-map]')
 		#breakin is BAD!!! VERY VERY BAD!!!
@@ -87,9 +94,28 @@ def Crawling(url,linx,limit,flag = None):
 		linx = FindLinks(replays,limit,linx,kwargs['params'])
 		url = next_page(url)
 
-	#TODO: 
-		#1) папка для реплеев должна создаваться
+
+def FindLinks(replays,limit,linx,params):	
+	linx = linx or []
+	for replay in replays:
+		rec = replayObject(replay)
+		if limit and checkReplay(rec,params):
+			linx+=[rec['url']]
+			limit-=1
+	return linx
 	
+def openPage(url):
+	return bs(r.get(url,timeout=30).content,"html5lib")
+
+def action(kwargs):
+	url = query(*kwargs['query'])
+	linx = []
+	limit = kwargs['limit']
+	
+	takeAllReplays(url,linx,limit)
+
+	#TODO: 
+		#1) папка для реплеев должна создаваться	
 	try:
 		folder_list = os.listdir(kwargs['path'])
 		folder_list.sort()
@@ -99,23 +125,11 @@ def Crawling(url,linx,limit,flag = None):
 	
 	new_fold = int(LastNum)+1
 	path = os.path.join(kwargs['path'],str(new_fold))
-	Loading(path,linx)
-
+	
+	LoadingFiles(path,linx)
 	print('\n','<'*6,'Finish','>'*6)
 
-def openPage(url):
-	return bs(r.get(url,timeout=30).content,"html5lib")
-
-def FindLinks(replays,limit,linx,params):	
-	linx = linx or []
-	for replay in replays:
-		rec = replayObject(replay)
-		if limit and Check(rec,params):
-			linx+=[rec['url']]
-			limit-=1
-	return linx
-	
 if __name__ == "__main__":
-	test_url = 'https://wotreplays.ru/site/index/version/43/tank/837/map/5/battle_type/1/sort/upLoadinged_at.desc/'
+	test_url = 'https://wotreplays.ru/site/index/version/43/tank/837/map/5/battle_type/1/sort/uploaded_at.desc/'
 	site = openPage(test_url)
 	print(site.select('div.r-info')[:-1])
