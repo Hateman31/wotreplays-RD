@@ -27,16 +27,17 @@ def NextPageExists(site,flag):
 		else:
 			return 0
 
+def Get_URL_and_name(url):
+	buf = url.split(#)
+	buf[0] = buf[0].replace('/site/','site/download/')
+	return [buf[0],'name':buf[-1]]
+
 def FindLinks(replays,limit,linx,params):	
 	linx = linx or []
 	for replay in replays:
 		rec = replayObject(replay)
-		#TODO:
-			#надо сделать linx списком словарей,
-			#каждый элемент, это словарь вида
-			#{'url':url.split(#)[0],'name':url.split(#)[-1]}
 		if limit and checkReplay(rec,params):
-			linx+=[rec['url']]
+			linx+=Get_URL_and_name(rec['url'])
 			limit-=1
 	return linx
 

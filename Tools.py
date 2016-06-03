@@ -23,26 +23,19 @@ def MakeQuery(tank=None,_map=None,battle=None):
 		return None
 
 def LoadingFiles(path,linx):
-	'''download replays'''
+	'''save replays on disk'''
 	base = 'http://wotreplays.ru/'
-	#TODO:
-		#надо сделать linx списком словарей,
-		#каждый элемент, это словарь вида
-		#{'url':url.split(#)[0],'name':url.split(#)[-1]}
-	for url in linx:
-		url_buf = url.split('#')
-		url_end = url_buf[0].replace('/site/','site/download/')
-		
-		if not os.path.exists(path):
-			os.mkdir(path)
-		
-		name = os.path.join(path,url_buf[-1]+'.wotreplay')
-		
-		print('\n','LoadingFiles',url_buf[0])
-		
-		wget.download(base+url_end,out=name)
-	
-def action(kwargs):
+
+	if not os.path.exists(path):
+		os.mkdir(path)
+
+	for url,name in linx:
+		fileName = os.path.join(path,name+'.wotreplay')		
+		#print('\n','LoadingFiles',url_buf[0])
+		wget.download(base+url,out=fileName)
+
+#сделать частью класса Root	
+def Action(kwargs):
 	query = MakeQuery(*kwargs['query'])
 	linx = []
 	limit = kwargs['limit']
@@ -63,6 +56,7 @@ def action(kwargs):
 	
 	LoadingFiles(path,linx)
 	print('\n','<'*6,'Finish','>'*6)
+
 
 if __name__ == "__main__":
 	test_url = 'https://wotreplays.ru/site/index/version/43/tank/837/map/5/battle_type/1/sort/uploaded_at.desc/'
