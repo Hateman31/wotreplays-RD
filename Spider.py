@@ -11,12 +11,14 @@ def openPage(url):
 	return bs(r.get(url,timeout=30).content,"html5lib")
 
 def checkReplay(rec,pars):
+	#params = self.stuff['params']	
 	'''compares property of replay with args'''
+	#keys = self.keys
 	keys = ('dmg','xp','frags')
 	return all(rec[key]>=pars[key] for key in keys)
 
 
-def NextPageExists(site,flag):
+def NextPageExists(site):
 	r_map = site.select('a[class*=r-map]')
 		if r_map:
 			if not flag:
@@ -32,7 +34,9 @@ def Get_URL_and_name(url):
 	buf[0] = buf[0].replace('/site/','site/download/')
 	return [buf[0],'name':buf[-1]]
 
-def FindLinks(replays,limit,linx,params):	
+#def FindLinks(replays,limit,linx):
+def FindLinks(replays,limit,linx,params):
+	#params = self.stuff['params']	
 	linx = linx or []
 	for replay in replays:
 		if limit and checkReplay(replay,params):
@@ -61,20 +65,17 @@ def TakeAllReplays(site):
 		replays +=[replayObject(html)]
 	return replays
 
-def Crawling(url,linx,limit,flag = None):
-	try:
-		site = openPage(url)
-	except:
-		print('Loading crash! Try later')
-		exit()
-	while limit and NextPageExists(site,flag):
-		replays = TakeAllReplays(site)
-		#linx = FindLinks(replays,limit,linx,self.stuff['params'])
-		linx = FindLinks(replays,limit,linx,kwargs['params'])
-		url = next_page(url)
+def Crawling(url,linx,limit):
+	new_url = None
+	start_url = url
+	while limit and (new_url != start_url):
 		#Если загрузка упала - вернуть сообщение об этом	
 		try:
 			site = openPage(url)
 		except:
 			print('Loading crash! Try later')
-			exit()
+			return
+		replays = TakeAllReplays(site)
+		#self.linx = self.findLinks(replays,limit,linx)
+		linx = FindLinks(replays,limit,linx,kwargs['params'])
+		new_url = next_page(site)
