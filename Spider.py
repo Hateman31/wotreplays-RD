@@ -1,11 +1,4 @@
 #вынести в класс Replay
-def next_page(url):
-	if 'page' in url:
-		num = str(int(url[-2])+1)
-		url =url[:-2]+num+'/'
-	else:
-		url = url+'page/2/'
-	return url
 
 def openPage(url):
 	return bs(r.get(url,timeout=30).content,"html5lib")
@@ -17,22 +10,26 @@ def checkReplay(rec,pars):
 	keys = ('dmg','xp','frags')
 	return all(rec[key]>=pars[key] for key in keys)
 
-
-def NextPageExists(site):
-	r_map = site.select('a[class*=r-map]')
-		if r_map:
-			if not flag:
-				flag = r_map[0].get('href')
-			else:
-				flag1 = r_map[0].get('href')
-				return flag1 == flag
-		else:
-			return 0
-
 def Get_URL_and_name(url):
 	buf = url.split(#)
 	buf[0] = buf[0].replace('/site/','site/download/')
 	return [buf[0],'name':buf[-1]]
+
+#def nextPage(self):
+def next_page(url):
+	#if self.NextPageExists():
+	if 'page' in url:
+		num = str(int(url[-2])+1)
+		url =url[:-2]+num+'/'
+	else:
+		url = url+'page/2/'
+	return url
+
+#def NextPageExists(self):
+def NextPageExists(site):
+	#return self.select('a[class*=r-map]')
+	return site.select('a[class*=r-map]')
+
 
 #def FindLinks(replays,limit,linx):
 def FindLinks(replays,limit,linx,params):
