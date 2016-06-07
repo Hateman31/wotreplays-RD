@@ -1,7 +1,7 @@
-#вынести в класс Replay
-
-def openPage(url):
-	return bs(r.get(url,timeout=30).content,"html5lib")
+import os
+import requests as r
+from bs4 import BeautifulSoup as bs
+from site import Site
 
 def checkReplay(rec,pars):
 	#params = self.stuff['params']	
@@ -62,16 +62,10 @@ def TakeAllReplays(site):
 		replays +=[replayObject(html)]
 	return replays
 
-def Crawling(url,linx,limit):
-	new_url = None
-	start_url = url
-	while limit and (new_url != start_url):
-		#Если загрузка упала - вернуть сообщение об этом	
-		try:
-			site = openPage(url)
-		except:
-			print('Loading crash! Try later')
-			return
+def Crawling(url):
+	site = Site(url)
+	while site.notLastPage():
+		site.openPage()
 		replays = TakeAllReplays(site)
 		#self.linx = self.findLinks(replays,limit,linx)
 		linx = FindLinks(replays,limit,linx,kwargs['params'])
