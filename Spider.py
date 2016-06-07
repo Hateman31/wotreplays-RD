@@ -3,12 +3,13 @@ import requests as r
 from bs4 import BeautifulSoup as bs
 from site import Site
 
+class ReplaysDownloader:
+	pass
+	
 #def replayIsGood(self,replay):
 def checkReplay(rec,pars):
-	#params = self.stuff['params']	
-	'''compares property of replay with args'''
-	#keys = self.keys
 	keys = ('dmg','xp','frags')
+	#return all(rec[key]>=self.pars[key] for key in self.keys)
 	return all(rec[key]>=pars[key] for key in keys)
 
 def Get_URL_and_name(url):
