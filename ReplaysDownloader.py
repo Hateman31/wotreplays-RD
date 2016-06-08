@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup as bs
 import json
 import os
 import wget
+from spider import Site
 
 def valueFromText(x): 
 	css = 'i[class*="%s"]'
@@ -40,7 +41,7 @@ class ReplaysDownloader:
 		replayObject['url'] = html.find('a').get('href')
 		self.replays += [replayObject]
 	
-	def crawling(self):
+	def walking(self):
 		self.site = Site(self.url)
 		#TODO: site.notLastPage() to property
 		#while self.site.NotLastPage:
@@ -56,3 +57,7 @@ class ReplaysDownloader:
 		buf[0] = buf[0].replace('/site/','site/download/')
 		return [buf[0],buf[-1]]
 	
+if __name__ == "__main__":
+	test_url = 'https://wotreplays.ru/site/index/version/43/tank/837/map/5/battle_type/1/sort/uploaded_at.desc/'
+	#site = ReplaysDownloader(test_url)
+	#print(site.replays[0])

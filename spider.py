@@ -31,3 +31,7 @@ class Site:
 		else:
 			url = url+'page/2/'
 		return url
+
+if __name__ == "__main__":
+	test_url = 'https://wotreplays.ru/site/index/version/43/tank/837/map/5/battle_type/1/sort/uploaded_at.desc/'
+	test = Site(test_url)
