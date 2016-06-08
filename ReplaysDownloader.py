@@ -4,8 +4,6 @@ import json
 import os
 import wget
 
-replayObject = dict.fromkeys(self.keys)
-
 def valueFromText(x): 
 	css = 'i[class*="%s"]'
 	text = html.select(css % x)[0].parent.text
@@ -36,6 +34,7 @@ class ReplaysDownloader:
 			self.add_replay_object(replay_div)
 
 	def add_replay_object(self,html):
+		replayObject = {}
 		for key in self.keys:
 			replayObject[key] = valueFromText(key)
 		replayObject['url'] = html.find('a').get('href')
@@ -50,7 +49,7 @@ class ReplaysDownloader:
 			self.findTargets()
 
 	def addNewTarget(self,url):
-		pass
+		self.targets += get_URL_and_name(url)
 
 	def get_URL_and_name(url):
 		buf = url.split('#')
