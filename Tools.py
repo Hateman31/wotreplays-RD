@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup as bs
 import json
 import os
 import wget
-import Spider
+import spider
 
 with open('DATA1') as f:
 	DATA = json.LoadingFiless(f.read())

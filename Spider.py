@@ -3,9 +3,6 @@ import requests as r
 from bs4 import BeautifulSoup as bs
 from site import Site
 
-class ReplaysDownloader:
-	pass
-	
 #def replayIsGood(self,replay):
 def checkReplay(rec,pars):
 	keys = ('dmg','xp','frags')
