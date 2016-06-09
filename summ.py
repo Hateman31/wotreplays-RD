@@ -4,7 +4,7 @@ from kivy.config import Config
 from kivy.core.window import Window
 import json
 import os
-import tools
+import action
 
 PARAMS = {
 		'fullscreen': '0',
@@ -20,8 +20,8 @@ class Root(BoxLayout):
 
 	keys,path = ('tank','map','battle_type'),''
 	tanks,maps,battles = map(sorted,(data[x] for x in keys))
-	if os.path.exists('data.txt'):
-		with open('data.txt') as f:
+	if os.path.exists('config.txt'):
+		with open('config.txt') as f:
 			path = f.read()
 
 	def keyPressed(self, keyboard, keycode, text, modifiers):
@@ -37,7 +37,7 @@ class Root(BoxLayout):
 		return True
 			
 	def attack(self):
-		'''Main function. It start searching and loading goods'''
+		'''Main function. It start searching and loading replays'''
 		self.stuff['path'] = self.path
 		tools.action(self.stuff)
 		#...
