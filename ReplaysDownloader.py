@@ -14,11 +14,11 @@ class ReplaysDownloader:
 		self.targets = None
 		self.html_to_replays()
 	
-	def checkValue(self,replay,field):
-		return replay[field]>=self.params[field]
-		
 	def replayIsGood(self,replay):
-		return all(checkValue(replay,field) for field in self.keys)
+		for field in self.keys:
+			if replay[field]<self.params[field]:
+				return 0
+		return 1
 	
 	def findTargets(self):
 		for replay in self.replays:
