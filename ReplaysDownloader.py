@@ -4,11 +4,7 @@ import json
 import os
 import wget
 from spider import Site
-
-def valueFromText(x): 
-	css = 'i[class*="%s"]'
-	text = html.select(css % x)[0].parent.text
-	return int(text.strip())
+import toolkit
 	
 class ReplaysDownloader:
 
