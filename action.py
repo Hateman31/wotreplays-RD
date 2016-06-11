@@ -8,15 +8,16 @@ import toolkit
 with open('data1') as f:
 	DATA = json.loads(f.read())
 
-def Action(**kwargs):
-	query = MakeQuery(kwargs['query'])
+def Action(kwargs):
+	query = toolkit.MakeQuery(DATA,*kwargs['query'])
 	path = kwargs['path']
 	if not path:
 		path = GetPath()
 	
-	wotreplays = ReplaysDownloader(query)
+	wotreplays = ReplaysDownloader(query,kwargs['params'])
+	print('Start walking...')
 	wotreplays.walking()
-	
+	print('Loading files...')
 	LoadingFiles(path,wotreplays.targets)
 
 if __name__ == "__main__":
