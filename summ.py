@@ -39,7 +39,7 @@ class Root(BoxLayout):
 	def attack(self):
 		'''Main function. It start searching and loading replays'''
 		self.stuff['path'] = self.path
-		action.Action(self.stuff)
+		action.Search_and_Save(self.stuff)
 		#...
 
 	def folder(self,path):

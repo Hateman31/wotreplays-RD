@@ -1,7 +1,6 @@
 import os
 import requests as r
 from bs4 import BeautifulSoup as bs
-import toolkit
 
 class Site:
 	def __init__(self,url):
