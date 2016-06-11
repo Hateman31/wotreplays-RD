@@ -43,7 +43,6 @@ def GetPath(folder):
 
 def valueFromText(html,key): 
 	css = 'i[class*="%s"]'
-	print(css % key)
 	text = html.select(css % key)[0].parent.text
 	return int(text.strip())
 

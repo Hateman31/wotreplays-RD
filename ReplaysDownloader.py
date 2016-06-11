@@ -42,10 +42,11 @@ class ReplaysDownloader:
 		self.site = Site(self.url)
 		#TODO: site.notLastPage() to property
 		#while self.site.NotLastPage:
+		print(self.site.notLastPage())
 		while self.site.notLastPage():
-			self.site.openPage()
 			self.html_to_replays()
 			self.findTargets()
+			self.site.openPage()
 
 	def addNewTarget(self,url):
 		self.targets += toolkit.get_URL_and_name(url)

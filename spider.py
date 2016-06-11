@@ -5,11 +5,10 @@ from bs4 import BeautifulSoup as bs
 class Site:
 	def __init__(self,url):
 		self.url = url
-		self.start_url = url
-		self.page = 0
-		self.new_url = None
-		self.html = None
+		self.page = 1
 		self.max_page_number = 0
+		self.html = None
+		self.openPage()
 		
 	def openPage(self):
 		#Если загрузка упала - вернуть сообщение об этом	
@@ -19,7 +18,7 @@ class Site:
 			print('Loading crash! Try later')
 			raise
 		print('prepare_next_URL')
-		if not self.page:
+		if self.page == 1:
 			self.max_page_number = self.last_page_number()
 		self.page+=1
 		self.prepare_next_URL()
