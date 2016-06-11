@@ -17,7 +17,6 @@ class Site:
 		except:
 			print('Loading crash! Try later')
 			raise
-		print('prepare_next_URL')
 		if self.page == 1:
 			self.max_page_number = self.last_page_number()
 		self.page+=1
@@ -30,13 +29,13 @@ class Site:
 		#return (self.start_url != self.new_url)
 	
 	def prepare_next_URL(self):
-		print('Old URL: ',self.url)
+		#print('Old URL: ',self.url)
 		if 'page' in self.url:
 			num = int(self.url[-2])+1
 			self.url = self.new_url = self.url[:-2]+str(num)+'/'
 		else:
 			self.url = self.new_url = self.url+'page/2/'
-		print('New URL: ',self.url)
+		#print('New URL: ',self.url)
 	
 	def next_page_exists(self):
 		pass

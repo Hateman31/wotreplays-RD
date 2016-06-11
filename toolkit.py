@@ -24,11 +24,11 @@ def LoadingFiles(path,targets):
 
 	if not os.path.exists(path):
 		os.mkdir(path)
-
-	for url,name in targets:
+	for target in targets:
+		url,name = target
 		fileName = os.path.join(path,name+'.wotreplay')		
 		wget.download(base+url,out=fileName)
-
+		
 def GetPath(folder):
 	#TODO: 
 	#папка для реплеев должна создаваться	
@@ -49,7 +49,7 @@ def valueFromText(html,key):
 def get_URL_and_name(url):
 	buf = url.split('#')
 	buf[0] = buf[0].replace('/site/','site/download/')
-	return [buf[0],buf[-1]]	
+	return (buf[0],buf[-1])
 	
 if __name__ == "__main__":
 	pass

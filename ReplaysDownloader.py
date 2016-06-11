@@ -42,14 +42,13 @@ class ReplaysDownloader:
 		self.site = Site(self.url)
 		#TODO: site.notLastPage() to property
 		#while self.site.NotLastPage:
-		print(self.site.notLastPage())
 		while self.site.notLastPage():
 			self.html_to_replays()
 			self.findTargets()
 			self.site.openPage()
 
 	def addNewTarget(self,url):
-		self.targets += toolkit.get_URL_and_name(url)
+		self.targets += [toolkit.get_URL_and_name(url)]
 	
 if __name__ == "__main__":
 	test_url = 'https://wotreplays.ru/site/index/version/43/tank/837/map/5/battle_type/1/sort/uploaded_at.desc/'
