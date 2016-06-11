@@ -7,9 +7,10 @@ class Site:
 	def __init__(self,url):
 		self.url = url
 		self.start_url = url
-		self.page = 1
+		self.page = 0
 		self.new_url = None
 		self.html = None
+		self.max_page_number = 0
 		
 	def openPage(self):
 		#Если загрузка упала - вернуть сообщение об этом	
@@ -19,12 +20,16 @@ class Site:
 			print('Loading crash! Try later')
 			raise
 		print('prepare_next_URL')
+		if not self.page:
+			self.max_page_number = self.last_page_number()
+		self.page+=1
 		self.prepare_next_URL()
 	
 	#@property	
 	#def NotLastPage(self):
 	def notLastPage(self):
-		return (self.start_url != self.new_url)
+		return self.page < self.max_page_number
+		#return (self.start_url != self.new_url)
 	
 	def prepare_next_URL(self):
 		print('Old URL: ',self.url)
@@ -39,12 +44,10 @@ class Site:
 		pass
 
 	def last_page_number(self):
-		css = 'script type="text/javascript"'
-		#css = '.pagination replays-pagination'	
-		#text = self.html.select(css)[-1].parent.text
-		text = self.html.select(css)
-		#return int(text.strip())
-		return text
+		css = 'script[type="text/javascript"]'
+		text = self.html.select(css)[-1].text
+		text = text.split('total:')[-1]
+		return int(text.split(',')[0])
 		
 if __name__ == "__main__":
 	test_url = 'https://wotreplays.ru/site/index/version/43/tank/837/map/5/battle_type/1/sort/uploaded_at.desc/'
