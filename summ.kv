@@ -31,7 +31,8 @@
     #some yours variables as a property by Root
 	params: {'dmg':dmg.buf,'xp':xp.buf,'frags':frags.buf}
 	query: [tank.text,_map.text,battle.text]
-	stuff: {'query':self.query,'params':self.params,'limit':limit.buf}
+#	stuff: {'query':self.query,'params':self.params,'limit':limit.buf}
+	stuff: {'query':self.query,'params':self.params}
 	sm: sm
     
     #background
@@ -77,18 +78,18 @@
 						text:'XP'
 					Texted:
 						id:xp
-					Lbl:
-						text:'Limit'
-                    BoxLayout:
-                        Lbl:
-                            text:str(limit.value)
-                            size_hint_x:.3
-                        Slider:
-                            id:limit
-                            min:10
-                            max:100
-                            step:10
-                            buf:self.value
+#					Lbl:
+#						text:'Limit'
+#                    BoxLayout:
+#                        Lbl:
+#                            text:str(limit.value)
+#                            size_hint_x:.3
+#                        Slider:
+#                            id:limit
+#                            min:10
+#                            max:100
+#                            step:10
+#                            buf:self.value
                         
 				Btn:
 					size_hint_x:.5
