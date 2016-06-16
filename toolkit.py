@@ -30,6 +30,7 @@ def LoadingFiles(path,targets):
 		wget.download(base+url,out=fileName)
 		
 def GetPath(folder):
+	print(folder)
 	#TODO: 
 	#папка для реплеев должна создаваться	
 	folder_list = os.listdir(folder).sort()
@@ -50,6 +51,11 @@ def get_URL_and_name(url):
 	buf = url.split('#')
 	buf[0] = buf[0].replace('/site/','site/download/')
 	return (buf[0],buf[-1])
+
+def SaveReplaysFolder(path):
+	directory = 'WOT_Replays'
+	return os.path.join(path,directory)
+	
 	
 if __name__ == "__main__":
 	pass

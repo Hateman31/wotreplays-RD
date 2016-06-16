@@ -39,13 +39,16 @@ class Root(BoxLayout):
 	def attack(self):
 		'''Main function. It start searching and loading replays'''
 		self.stuff['path'] = self.path
-		action.Search_and_Save(self.stuff)
+		print(self.path or 'Path not exists!')
+		#action.Search_and_Save(self.stuff)
 		#...
 
 	def folder(self,path):
 		'''Remember folder to save replays'''
-		cwd = os.path.join(os.getcwd(),'data.txt')
-		if not os.path.exists(cwd):
+		path = toolkit.SaveReplaysFolder(path)
+		#cwd = os.path.join(os.getcwd(),'config.txt')
+		if not os.path.exists('config.txt'):
+		#if not os.path.exists(cwd):
 			with open(cwd,'w') as f:
 				f.write(path)
 		self.path = path
