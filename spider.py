@@ -26,16 +26,13 @@ class Site:
 	#def NotLastPage(self):
 	def notLastPage(self):
 		return self.page < self.max_page_number
-		#return (self.start_url != self.new_url)
 	
 	def prepare_next_URL(self):
-		#print('Old URL: ',self.url)
 		if 'page' in self.url:
 			num = int(self.url[-2])+1
 			self.url = self.new_url = self.url[:-2]+str(num)+'/'
 		else:
 			self.url = self.new_url = self.url+'page/2/'
-		#print('New URL: ',self.url)
 	
 	def next_page_exists(self):
 		pass
