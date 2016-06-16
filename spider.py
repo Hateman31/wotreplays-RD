@@ -30,13 +30,11 @@ class Site:
 	def prepare_next_URL(self):
 		if 'page' in self.url:
 			num = int(self.url[-2])+1
-			self.url = self.new_url = self.url[:-2]+str(num)+'/'
+			self.url = self.url[:-2]+str(num)+'/'
 		else:
-			self.url = self.new_url = self.url+'page/2/'
+			self.url = self.url+'page/2/'
+		#self.url = self.url[:-2]+str(self.page)+'/'
 	
-	def next_page_exists(self):
-		pass
-
 	def last_page_number(self):
 		css = 'script[type="text/javascript"]'
 		text = self.html.select(css)[-1].text
