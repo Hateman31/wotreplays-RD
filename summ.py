@@ -41,7 +41,7 @@ class Root(BoxLayout):
 		'''Main function. It start searching and loading replays'''
 		self.stuff['path'] = self.path
 		print(self.path or 'Path not exists!')
-		#action.Search_and_Save(self.stuff)
+		action.Search_and_Save(self.stuff)
 		#...
 
 	def folder(self,path):
@@ -49,16 +49,8 @@ class Root(BoxLayout):
 		path = toolkit.SaveReplaysFolder(path)
 		if not os.path.exists(path):
 			os.mkdir(path)
-		#cwd = os.path.join(os.getcwd(),'config.txt')
-		#if not os.path.exists(cwd):
-			#with open(cwd,'w') as f:
-		#if not os.path.exists('config.txt'):
-			#with open('config.txt','w') as f:
-				#f.write(path)
-				#print('Write path to config')
 		with open('config.txt','w') as f:
 			f.write(path)
-			print('Write path to config')
 		self.path = path
 
 class SummApp(App):	

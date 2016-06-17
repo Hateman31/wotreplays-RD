@@ -14,12 +14,8 @@ def Search_and_Save(kwargs):
 	if not path:
 		path = GetPath()
 	wotreplays = ReplaysDownloader(query,kwargs['params'])
-	print('Start walking...')
 	wotreplays.walking()
-	#print('Loading files...')
-	print(path)
-	#toolkit.LoadingFiles(path,wotreplays.targets)
-	print('Completed!')
+	toolkit.LoadingFiles(path,wotreplays.targets)
 	
 if __name__ == "__main__":
 	test_params = None
