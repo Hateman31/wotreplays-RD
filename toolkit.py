@@ -3,7 +3,7 @@ import json, os, wget
 from bs4 import BeautifulSoup as bs
 #from ReplaysDownloader import ReplaysDownloader
 from spider import Site
-
+import time
 #оставить здесь
 def MakeQuery(DATA,tank=None,_map=None,battle=None):
 	valueList = (tank,_map,battle)
@@ -27,6 +27,7 @@ def LoadingFiles(path,targets):
 		url,name = target
 		fileName = os.path.join(path,name+'.wotreplay')		
 		wget.download(base+url,out=fileName)
+		time.sleep(1.5)
 		
 def GetPath(folder):
 	print(folder)

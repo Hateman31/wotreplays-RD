@@ -5,6 +5,7 @@ import os
 import wget
 from spider import Site
 import toolkit
+import time
 
 class ReplaysDownloader:
 	def __init__(self,url,params):
@@ -43,6 +44,7 @@ class ReplaysDownloader:
 		#TODO: site.notLastPage() to property
 		#while self.site.NotLastPage:
 		while self.site.notLastPage():
+			time.sleep(2)
 			self.html_to_replays()
 			self.findTargets()
 			self.site.openPage()
