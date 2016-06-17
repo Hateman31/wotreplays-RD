@@ -34,7 +34,7 @@
 #	stuff: {'query':self.query,'params':self.params,'limit':limit.buf}
 	stuff: {'query':self.query,'params':self.params}
 	sm: sm
-    
+    popup:popup.__self__
     #background
     canvas:
         Color:
@@ -46,6 +46,19 @@
 	orientation:'vertical'
     padding:16
 	spacing:6
+    
+    Popup:
+        id: popup
+        on_parent: if self.parent == root: root.remove_widget(self)
+        title: "Ошибка!"
+        content: popupcontent
+        Box:
+            id: popupcontent
+            Lbl:
+                text: "Нет подключения к Сети.\nПопробуйте позже"
+            Btn:
+                on_release: popup.dismiss()
+                text:'OK'
 	
     BoxLayout:
 		spacing:6

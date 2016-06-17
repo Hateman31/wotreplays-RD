@@ -2,6 +2,9 @@ import os
 import requests as r
 from bs4 import BeautifulSoup as bs
 
+class ConnectionError(r.exceptions.ConnectionError):
+	pass
+	
 class Site:
 	def __init__(self,url):
 		self.url = url

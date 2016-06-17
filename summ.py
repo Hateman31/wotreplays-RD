@@ -6,6 +6,7 @@ import json
 import os
 import action
 import toolkit
+import requests as r
 
 PARAMS = {
 		'fullscreen': '0',
@@ -40,9 +41,11 @@ class Root(BoxLayout):
 	def attack(self):
 		'''Main function. It start searching and loading replays'''
 		self.stuff['path'] = self.path
-		print(self.path or 'Path not exists!')
-		action.Search_and_Save(self.stuff)
-		#...
+		#print(self.path or 'Path not exists!')
+		try:
+			action.Search_and_Save(self.stuff)
+		except r.exceptions.ConnectionError:
+			self.popup.open()
 
 	def folder(self,path):
 		'''Remember folder to save replays'''

@@ -5,7 +5,7 @@ import os
 import wget
 from spider import Site
 import toolkit
-	
+
 class ReplaysDownloader:
 	def __init__(self,url,params):
 		self.url = url
