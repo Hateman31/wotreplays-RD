@@ -1,31 +1,170 @@
 #: kivy 1.9.0
+#:import Factory kivy.factory.Factory
 
-<Foo>:
-	BoxLayout:
-		orientation:'vertical'
-		BoxLayout:
-			Button:
-				text:'1'
-				size_hint_y:None
-			Button:
-				text:'2'
-				size_hint_y:None
-		GridLayout:
-			cols:2
-			rows:3
-			Label:
-				text:'Damage'
-			TextInput
-			Label:
-				text:'Frags'
-			TextInput
-			Label:
-				text:'XP'
-			TextInput
-		BoxLayout:
-			Button:
-				text:'Search'
-				size_hint_y:None
-			Button:
-				text:'Exit'
-				size_hint_y:None
+#TODO:  
+#    add progress-bar to loading
+#    make from one files any files
+
+<Texted@TextInput>:
+	buf:int(self.text) if self.text else 0
+	font_size:60
+
+<Box@BoxLayout>:
+	orientation:'vertical'
+	spacing:10
+
+<Btn@Button>:
+	size_hint_y:None
+    background_color:.5,.4,1,1
+    font_size:30
+
+<Lbl@Label>:
+    canvas:
+        Color:
+            rgba: 0.6, 0.1, 0.8, 0.5
+        Rectangle:
+            pos: self.pos
+            size: self.size
+	font_size:20
+
+<Root>:
+    #some yours variables as a property by Root
+	params: {'dmg':dmg.buf,'xp':xp.buf,'frags':frags.buf}
+	query: [tank.text,_map.text,battle.text]
+#	stuff: {'query':self.query,'params':self.params,'limit':limit.buf}
+	stuff: {'query':self.query,'params':self.params}
+	sm: sm
+    popup:popup.__self__
+    #background
+    canvas:
+        Color:
+            rgba: 0.5, 0.5, 0.5, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+	orientation:'vertical'
+    padding:16
+	spacing:6
+    
+    Popup:
+        id: popup
+        on_parent: if self.parent == root: root.remove_widget(self)
+        title: "Ошибка!"
+        content: popupcontent
+        Box:
+            id: popupcontent
+            Lbl:
+                text: "Нет подключения к Сети.\nПопробуйте позже"
+            Btn:
+                on_release: popup.dismiss()
+                text:'OK'
+	
+    BoxLayout:
+		spacing:6
+		size_hint_y:.2
+		Btn:
+			text:'Choose folder'
+			on_release:sm.current='scrn3'
+		Btn:
+			text:'Exit'
+			on_press:exit()
+
+	ScreenManager:
+		id:sm
+		Screen:
+			name:'scrn1'
+			Box:
+				GridLayout:
+					cols:2
+					rows:4
+					spacing:6
+					Lbl:
+						text:'Damage'
+					Texted:
+						id:dmg
+					Lbl:
+						text:'Frags'
+					Texted:
+						id:frags
+					Lbl:
+						text:'XP'
+					Texted:
+						id:xp
+#					Lbl:
+#						text:'Limit'
+#                    BoxLayout:
+#                        Lbl:
+#                            text:str(limit.value)
+#                            size_hint_x:.3
+#                        Slider:
+#                            id:limit
+#                            min:10
+#                            max:100
+#                            step:10
+#                            buf:self.value
+                        
+				Btn:
+					size_hint_x:.5
+					pos_hint:{'center_x':.5}
+					text:'Next'
+					on_release:sm.current='scrn2'
+		Screen:
+			name:'scrn2'
+			Box:
+				GridLayout:
+					cols:2
+					rows:3
+                    spacing:6
+					Lbl:
+						text:'Tank'
+					Spinner:
+						id:tank
+						values:root.tanks
+						text: self.values[150]
+					Lbl:
+						text:'Map'
+					Spinner:
+						id:_map
+						values:root.maps
+						text: self.values[0]
+					Lbl:
+						text:'Battle'
+					Spinner:
+						id:battle
+						values:root.battles
+						text: self.values[-4]
+				BoxLayout:
+					size_hint_y:None
+					Btn:
+						text:'Prev'
+						on_release:sm.current='scrn1'
+					Btn:
+						text:'Search'
+						on_press:
+							self.text='Loading...';root.disabled=True
+						on_release: 
+							if root.path: root.attack()
+							else: sm.current ='scrn4'
+							root.disabled=False
+							self.text='Search'
+		Screen:
+			name:'scrn3'
+			Box:
+				FileChooserIconView:
+					id:filechooser
+				BoxLayout:
+					size_hint_y:None
+					Btn:
+						text:'Cancel'
+						on_release:sm.current='scrn1'
+					Btn:
+						text:'OK'
+						on_press:root.folder(filechooser.path)
+						on_release:sm.current='scrn2'
+		Screen:
+			name:'scrn4'
+			Box:
+				Lbl:
+					text:'Please!Choose folder for replays!'
+					font_size:35
