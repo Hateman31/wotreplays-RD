@@ -5,6 +5,7 @@ from kivy.core.window import Window
 import json
 import os
 import action
+import toolkit
 
 PARAMS = {
 		'fullscreen': '0',
