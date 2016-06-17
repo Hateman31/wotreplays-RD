@@ -40,8 +40,8 @@ class Root(BoxLayout):
 	def attack(self):
 		'''Main function. It start searching and loading replays'''
 		self.stuff['path'] = self.path
-		print(self.path or 'Path not exists!')
-		#action.Search_and_Save(self.stuff)
+		#print(self.path or 'Path not exists!')
+		action.Search_and_Save(self.stuff)
 		#...
 
 	def folder(self,path):

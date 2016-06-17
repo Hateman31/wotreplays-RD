@@ -21,7 +21,6 @@ def MakeQuery(DATA,tank=None,_map=None,battle=None):
 def LoadingFiles(path,targets):
 	'''save replays on disk'''
 	base = 'http://wotreplays.ru/'
-
 	if not os.path.exists(path):
 		os.mkdir(path)
 	for target in targets:
