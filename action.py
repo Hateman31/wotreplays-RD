@@ -16,8 +16,9 @@ def Search_and_Save(kwargs):
 	wotreplays = ReplaysDownloader(query,kwargs['params'])
 	print('Start walking...')
 	wotreplays.walking()
-	print('Loading files...')
-	toolkit.LoadingFiles(path,wotreplays.targets)
+	#print('Loading files...')
+	print(path)
+	#toolkit.LoadingFiles(path,wotreplays.targets)
 	print('Completed!')
 	
 if __name__ == "__main__":

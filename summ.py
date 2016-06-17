@@ -40,8 +40,8 @@ class Root(BoxLayout):
 	def attack(self):
 		'''Main function. It start searching and loading replays'''
 		self.stuff['path'] = self.path
-		#print(self.path or 'Path not exists!')
-		action.Search_and_Save(self.stuff)
+		print(self.path or 'Path not exists!')
+		#action.Search_and_Save(self.stuff)
 		#...
 
 	def folder(self,path):
@@ -50,11 +50,15 @@ class Root(BoxLayout):
 		if not os.path.exists(path):
 			os.mkdir(path)
 		#cwd = os.path.join(os.getcwd(),'config.txt')
-		if not os.path.exists('config.txt'):
 		#if not os.path.exists(cwd):
 			#with open(cwd,'w') as f:
-			with open('config.txt','w') as f:
-				f.write(path)
+		#if not os.path.exists('config.txt'):
+			#with open('config.txt','w') as f:
+				#f.write(path)
+				#print('Write path to config')
+		with open('config.txt','w') as f:
+			f.write(path)
+			print('Write path to config')
 		self.path = path
 
 class SummApp(App):	
