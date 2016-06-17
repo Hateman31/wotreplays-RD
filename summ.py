@@ -46,10 +46,13 @@ class Root(BoxLayout):
 	def folder(self,path):
 		'''Remember folder to save replays'''
 		path = toolkit.SaveReplaysFolder(path)
+		if not os.path.exists(path):
+			os.mkdir(path)
 		#cwd = os.path.join(os.getcwd(),'config.txt')
 		if not os.path.exists('config.txt'):
 		#if not os.path.exists(cwd):
-			with open(cwd,'w') as f:
+			#with open(cwd,'w') as f:
+			with open('config.txt','w') as f:
 				f.write(path)
 		self.path = path
 
