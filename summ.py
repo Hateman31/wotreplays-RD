@@ -53,6 +53,8 @@ class Root(BoxLayout):
 		path = toolkit.SaveReplaysFolder(path)
 		if not os.path.exists(path):
 			os.mkdir(path)
+		if not os.path.exists('config.txt'):
+			os.mkdir('config.txt')
 		with open('config.txt','w') as f:
 			f.write(path)
 		self.path = path
