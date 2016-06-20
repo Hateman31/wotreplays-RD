@@ -56,7 +56,8 @@
         Box:
             id: popupcontent
             Lbl:
-                text: "Нет подключения к Сети.\nПопробуйте позже"
+                #text: "Нет подключения к Сети.\nПопробуйте позже"
+                text: GetUnicode("Нет подключения к Сети.\nПопробуйте позже")
             Btn:
                 on_release: popup.dismiss()
                 text:'OK'
