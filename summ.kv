@@ -123,19 +123,22 @@
 					rows:3
                     spacing:6
 					Lbl:
-						text:'Tank'
+						#text:'Tank'
+						text: GetUnicode("Танк")
 					Spinner:
 						id:tank
 						values:root.tanks
 						text: self.values[150]
 					Lbl:
-						text:'Map'
+						#text:'Map'
+						text: GetUnicode("Карта")
 					Spinner:
 						id:_map
 						values:root.maps
 						text: self.values[0]
 					Lbl:
-						text:'Battle'
+						#text:'Battle'
+						text: GetUnicode("Тип боя")
 					Spinner:
 						id:battle
 						values:root.battles
