@@ -20,24 +20,28 @@ def MakeQuery(DATA,tank=None,_map=None,battle=None):
 def LoadingFiles(path,targets):
 	'''save replays on disk'''
 	base = 'http://wotreplays.ru/'
+	if not os.path.exists(path):
+		os.mkdir(path)
+	subfolder = GetPath(path)
+	print(subfolder)
+	if not os.path.exists(subfolder):
+		os.mkdir(subfolder)
 	for target in targets:
+	#~ for target in targets[:1]:
 		url,name = target
-		fileName = os.path.join(path,name+'.wotreplay')		
+		fileName = os.path.join(subfolder,name+'.wotreplay')		
 		wget.download(base+url,out=fileName)
 		time.sleep(1.5)
 		
 def GetPath(folder):
-	print(folder)
-	#TODO: 
-	#папка для реплеев должна создаваться	
-	folder_list = os.listdir(folder).sort()
+	folder_list = os.listdir(folder)
+	folder_list.sort()
 	try:
-		LastNum = folder_list[-1] if folder_list else '0'
-	except ValueError:
-		print(os.listdir(folder) or 'List are empty')
-	
+		LastNum = folder_list[-1]
+	except IndexError:
+		LastNum = '0'
 	new_fold = int(LastNum)+1
-	path = os.path.join(folder,str(new_fold))
+	return os.path.join(folder,str(new_fold))
 
 def valueFromText(html,key): 
 	css = 'i[class*="%s"]'
@@ -57,4 +61,6 @@ def GetUnicode(text):
 	return text.encode('cp1251').decode('utf-8')	
 	
 if __name__ == "__main__":
-	pass
+	path = 'C:\\users\\vlad\\desktop\\WOT_Replays'
+	subfolder = GetPath(path)
+	print(subfolder)
