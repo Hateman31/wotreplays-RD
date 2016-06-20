@@ -13,7 +13,7 @@ def Search_and_Save(kwargs):
 	query = toolkit.MakeQuery(DATA,*kwargs['query'])
 	path = kwargs['path']
 	if not path:
-		path = GetPath()
+		path = toolkit.GetPath()
 	wotreplays = ReplaysDownloader(query,kwargs['params'])
 	wotreplays.walking()
 	toolkit.LoadingFiles(path,wotreplays.targets)

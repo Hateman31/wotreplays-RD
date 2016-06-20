@@ -1,5 +1,6 @@
 import os
 import requests as r
+import bs4
 from bs4 import BeautifulSoup as bs
 
 class ConnectionError(r.exceptions.ConnectionError):
@@ -17,9 +18,12 @@ class Site:
 		#Если загрузка упала - вернуть сообщение об этом	
 		try:
 			self.html = bs(r.get(self.url,timeout=30).content,"html5lib")
-		except:
-			print('Loading crash! Try later')
-			raise
+		#~ except:
+			#~ print('Loading crash! Try later')
+			#~ raise
+		except bs4.FeatureNotFound:
+			#~ self.html = bs(r.get(self.url,timeout=30).content)
+			self.html = bs(r.get(self.url,timeout=30).content,"html.parser")
 		if self.page == 1:
 			self.max_page_number = self.last_page_number()
 		self.page+=1
@@ -48,4 +52,4 @@ if __name__ == "__main__":
 	test_url = 'https://wotreplays.ru/site/index/version/43/tank/837/map/5/battle_type/1/sort/uploaded_at.desc/'
 	test = Site(test_url)
 	test.openPage()
-	print(test.last_page_number())
+	print('last_page_number: ',test.last_page_number())
