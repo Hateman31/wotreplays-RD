@@ -146,17 +146,21 @@
 				BoxLayout:
 					size_hint_y:None
 					Btn:
-						text:'Prev'
+						#text:'Prev'
+						text: GetUnicode("Назад")
 						on_release:sm.current='scrn1'
 					Btn:
-						text:'Search'
+						#text:'Search'
+						text: GetUnicode("Поиск")
 						on_press:
-							self.text='Loading...';root.disabled=True
+							self.text='Loading...'
+							root.disabled=True
 						on_release: 
 							if root.path: root.attack()
 							else: sm.current ='scrn4'
 							root.disabled=False
 							self.text='Search'
+							#self.text= GetUnicode("Поиск")
 		Screen:
 			name:'scrn3'
 			Box:
