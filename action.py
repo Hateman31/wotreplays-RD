@@ -5,6 +5,7 @@ from ReplaysDownloader import ReplaysDownloader
 from spider import Site
 import toolkit
 import time
+
 with open('data1') as f:
 	DATA = json.loads(f.read())
 

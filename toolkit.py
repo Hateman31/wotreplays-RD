@@ -1,10 +1,9 @@
 import requests as r
 import json, os, wget
 from bs4 import BeautifulSoup as bs
-#from ReplaysDownloader import ReplaysDownloader
 from spider import Site
 import time
-#оставить здесь
+
 def MakeQuery(DATA,tank=None,_map=None,battle=None):
 	valueList = (tank,_map,battle)
 	keys = ('tank','map','battle_type')
@@ -21,8 +20,6 @@ def MakeQuery(DATA,tank=None,_map=None,battle=None):
 def LoadingFiles(path,targets):
 	'''save replays on disk'''
 	base = 'http://wotreplays.ru/'
-	#if not os.path.exists(path):
-		#os.mkdir(path)
 	for target in targets:
 		url,name = target
 		fileName = os.path.join(path,name+'.wotreplay')		
@@ -56,6 +53,8 @@ def SaveReplaysFolder(path):
 	directory = 'WOT_Replays'
 	return os.path.join(path,directory)
 	
+def GetUnicode(text):
+	return text.encode('cp1251').decode('utf-8')	
 	
 if __name__ == "__main__":
 	pass
