@@ -72,7 +72,8 @@
 		Btn:
 			#text:'Exit'
 			text: GetUnicode("Выход")
-			on_press:exit()
+			on_press:
+				app.stop()
 
 	ScreenManager:
 		id:sm

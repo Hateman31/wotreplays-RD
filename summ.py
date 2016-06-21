@@ -9,6 +9,7 @@ import action
 #~ from action import DATA as data
 import toolkit
 import requests as r
+import sys
 
 PARAMS = {
 		'fullscreen': '0',
@@ -40,8 +41,8 @@ class Root(BoxLayout):
 			#подтверждения выхода,
 			#если идет загрузка
 		if keycode[1] == 'escape'and not self.disabled:
-				#~ sys.exit()
-				exit()
+				sys.exit()
+				#~ exit()
 		return True
 			
 	def attack(self):
