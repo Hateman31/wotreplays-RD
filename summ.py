@@ -6,6 +6,7 @@ from kivy.core.window import Window
 import json
 import os
 import action
+#~ from action import DATA as data
 import toolkit
 import requests as r
 
@@ -16,15 +17,18 @@ PARAMS = {
 
 Config.setall('graphics',PARAMS)
 
-with open('data1') as f:
+#~ with open(toolkit.RelativePath('data1')) as f:
+with open(toolkit.AnotherRelativePath('data1')) as f:
 	data = json.loads(f.read())
 
 class Root(BoxLayout):
 
 	keys,path = ('tank','map','battle_type'),''
 	tanks,maps,battles = map(sorted,(data[x] for x in keys))
-	if os.path.exists('config.txt'):
-		with open('config.txt') as f:
+	#~ configPath = toolkit.RelativePath('config.txt')
+	configPath = toolkit.AnotherRelativePath('config.txt')
+	if os.path.exists(configPath):
+		with open(configPath) as f:
 			path = f.read()
 
 	def keyPressed(self, keyboard, keycode, text, modifiers):
@@ -36,6 +40,7 @@ class Root(BoxLayout):
 			#подтверждения выхода,
 			#если идет загрузка
 		if keycode[1] == 'escape'and not self.disabled:
+				#~ sys.exit()
 				exit()
 		return True
 			
@@ -51,11 +56,13 @@ class Root(BoxLayout):
 	def folder(self,path):
 		'''Remember folder to save replays'''
 		path = toolkit.SaveReplaysFolder(path)
+		#~ configPath = toolkit.RelativePath('config.txt')
+		configPath = toolkit.AnotherRelativePath('config.txt')
 		if not os.path.exists(path):
 			os.mkdir(path)
-		if not os.path.exists('config.txt'):
-			os.mkdir('config.txt')
-		with open('config.txt','w') as f:
+		if not os.path.exists(configPath):
+			os.mkdir(configPath)
+		with open(configPath,'w') as f:
 			f.write(path)
 		self.path = path
 

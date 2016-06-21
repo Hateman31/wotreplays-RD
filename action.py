@@ -1,12 +1,13 @@
 import requests as r
-import json, os, wget
+import json, os, wget,sys
 from bs4 import BeautifulSoup as bs
 from ReplaysDownloader import ReplaysDownloader
 from spider import Site
 import toolkit
 import time
 
-with open('data1') as f:
+#~ with open('data1') as f:
+with open(toolkit.AnotherRelativePath('data1')) as f:
 	DATA = json.loads(f.read())
 
 def Search_and_Save(kwargs):

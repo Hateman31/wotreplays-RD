@@ -1,5 +1,5 @@
 import requests as r
-import json, os, wget
+import json, os, wget,sys
 from bs4 import BeautifulSoup as bs
 from spider import Site
 import time
@@ -59,6 +59,13 @@ def SaveReplaysFolder(path):
 	
 def GetUnicode(text):
 	return text.encode('cp1251').decode('utf-8')	
+
+def RelativePath(fname):
+	return os.path.join(os.path.dirname(sys.executable),fname)
+
+def AnotherRelativePath(fname,script = __file__):
+	basedir = os.path.abspath(os.path.dirname(script))
+	return os.path.join(basedir,fname)
 	
 if __name__ == "__main__":
 	path = 'C:\\users\\vlad\\desktop\\WOT_Replays'
