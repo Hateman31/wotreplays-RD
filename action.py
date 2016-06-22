@@ -20,5 +20,6 @@ def Search_and_Save(kwargs):
 	toolkit.LoadingFiles(path,wotreplays.targets)
 	
 if __name__ == "__main__":
-	test_params = None
-	Search_and_Save(test_params)
+	#~ test_params = None
+	#~ Search_and_Save(test_params)
+	pass

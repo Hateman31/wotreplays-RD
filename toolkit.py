@@ -4,6 +4,9 @@ from bs4 import BeautifulSoup as bs
 from spider import Site
 import time
 
+appdata = os.environ['APPDATA']
+Config_Folder = os.path.join(appdata,'ReplaysDownloader')
+
 def MakeQuery(DATA,tank=None,_map=None,battle=None):
 	valueList = (tank,_map,battle)
 	keys = ('tank','map','battle_type')

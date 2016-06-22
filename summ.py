@@ -56,16 +56,14 @@ class Root(BoxLayout):
 
 	def folder(self,path):
 		'''Remember folder to save replays'''
-		path = toolkit.SaveReplaysFolder(path)
-		#~ configPath = toolkit.RelativePath('config.txt')
-		configPath = toolkit.AnotherRelativePath('config.txt')
-		if not os.path.exists(path):
-			os.mkdir(path)
-		if not os.path.exists(configPath):
-			os.mkdir(configPath)
+		SaveFolder = toolkit.SaveReplaysFolder(path)
+		#~ configPath = toolkit.AnotherRelativePath('config.txt')
+		configPath = os.path.join(toolkit.Config_Folder,'config.txt')
+		if not os.path.exists(SaveFolder):
+			os.mkdir(SaveFolder)
 		with open(configPath,'w') as f:
-			f.write(path)
-		self.path = path
+			f.write(SaveFolder)
+		self.path = SaveFolder
 
 class SummApp(App):	
 	def build(self):
