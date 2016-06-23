@@ -27,7 +27,6 @@ def LoadingFiles(path,targets):
 	if not os.path.exists(path):
 		os.mkdir(path)
 	subfolder = GetPath(path)
-	print(subfolder)
 	if not os.path.exists(subfolder):
 		os.mkdir(subfolder)
 	for target in targets:

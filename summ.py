@@ -26,7 +26,6 @@ class Root(BoxLayout):
 
 	keys,path = ('tank','map','battle_type'),''
 	tanks,maps,battles = map(sorted,(data[x] for x in keys))
-	#~ configPath = toolkit.AnotherRelativePath('config.txt')
 	configPath = toolkit.Config_Path
 	if os.path.exists(configPath):
 		with open(configPath) as f:
