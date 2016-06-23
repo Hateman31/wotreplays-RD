@@ -6,6 +6,7 @@ import time
 
 appdata = os.environ['APPDATA']
 Config_Folder = os.path.join(appdata,'ReplaysDownloader')
+Config_Path = os.path.join(Config_Folder,'config.txt')
 
 def MakeQuery(DATA,tank=None,_map=None,battle=None):
 	valueList = (tank,_map,battle)
@@ -71,6 +72,4 @@ def AnotherRelativePath(fname,script = __file__):
 	return os.path.join(basedir,fname)
 	
 if __name__ == "__main__":
-	path = 'C:\\users\\vlad\\desktop\\WOT_Replays'
-	subfolder = GetPath(path)
-	print(subfolder)
+	print(os.path.exists(Config_Path))

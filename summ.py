@@ -26,8 +26,8 @@ class Root(BoxLayout):
 
 	keys,path = ('tank','map','battle_type'),''
 	tanks,maps,battles = map(sorted,(data[x] for x in keys))
-	#~ configPath = toolkit.RelativePath('config.txt')
-	configPath = toolkit.AnotherRelativePath('config.txt')
+	#~ configPath = toolkit.AnotherRelativePath('config.txt')
+	configPath = toolkit.Config_Path
 	if os.path.exists(configPath):
 		with open(configPath) as f:
 			path = f.read()
@@ -58,7 +58,10 @@ class Root(BoxLayout):
 		'''Remember folder to save replays'''
 		SaveFolder = toolkit.SaveReplaysFolder(path)
 		#~ configPath = toolkit.AnotherRelativePath('config.txt')
-		configPath = os.path.join(toolkit.Config_Folder,'config.txt')
+		configPath = self.configPath
+		print(configPath)
+		if not os.path.exists(toolkit.Config_Folder):
+			os.mkdir(toolkit.Config_Folder)
 		if not os.path.exists(SaveFolder):
 			os.mkdir(SaveFolder)
 		with open(configPath,'w') as f:
