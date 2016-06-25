@@ -26,6 +26,7 @@ class ReplaysDownloader:
 		for replay in self.replays:
 			if self.replayIsGood(replay):
 				self.addNewTarget(replay['url'])
+				#~ return
 	
 	def html_to_replays(self):
 		replays_html = self.site.html.select('div.r-info')[:-1]
@@ -47,6 +48,7 @@ class ReplaysDownloader:
 			time.sleep(2)
 			self.html_to_replays()
 			self.findTargets()
+			#~ return
 			self.site.openPage()
 
 	def addNewTarget(self,url):
